@@ -13,7 +13,7 @@ row-alt-bg = #FAFCFD;
 row-hover-bg = #E4EBF7;
 
 .grid
-	position relative; cursor default; min-height 240px; font 13; margin 10; border border-color;
+	cursor default; min-height 240px; font 13; border border-color; margin-right 10;
 	not-selectable();
 	*
 		box-sizing border-box;
@@ -41,6 +41,9 @@ row-hover-bg = #E4EBF7;
 		bg row-bg; padding 5; transition background-color .1s;
 		border-right border-color
 
+		&:last-child
+			border none;
+
 	&:first-child
 		border none;
 
@@ -61,7 +64,12 @@ row-hover-bg = #E4EBF7;
 		&:hover
 			bg row-bg;
 
-
+	.action
+		text-align right; padding-left 0;
+		.row-action
+			size 21; font 14; padding 3 4 0; text-align right; u 0; show 1;
+		.fa
+			u 0;
 
 
 

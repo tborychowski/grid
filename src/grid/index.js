@@ -7,7 +7,7 @@ export default class Grid {
 			target: document.body,
 			sort: { by: 'id', order: 'asc' },
 			dataSource: null,
-			items: { label: 'items', root: 'items', itemId: 'id' },
+			// items: { label: 'items', root: '', itemId: 'id' },
 			columns: []
 		};
 		this.tpl = {
@@ -36,15 +36,17 @@ export default class Grid {
 		this.data = {};
 		this.items = [];
 		if (!this.cfg.dataSource) throw 'No data source';
-		if (this.cfg.dataSource instanceof Promise) this.cfg.dataSource().then(this.setData);
-		else this.setData(this.cfg.dataSource());
+		var src = this.cfg.dataSource();
+		if (src instanceof Promise) src.then(this.setData.bind(this));
+		else this.setData(src);
 		return this;
 	}
 
 	setData (data) {
 		if (!data) throw 'No data!';
 		this.data = data;
-		this.items = data[this.cfg.items.root];
+		// if (this.cfg.items.root) this.items = data[this.cfg.items.root];
+		this.items = data;
 		this.sortItems();
 		return this;
 	}
@@ -54,6 +56,7 @@ export default class Grid {
 		if (order) this.cfg.sort.order = order;
 
 		if (this.items && this.items.length) {
+			this.items.sort(util.sortFn({ by: 'id', order: 'desc'}, this.items));
 			if (sortBy) this.items.sort(util.sortFn(this.cfg.sort, this.items));
 		}
 		this.populate();
@@ -111,13 +114,16 @@ export default class Grid {
 
 
 	onClick (e) {
-		var target = e.target, newTarget = util.closest(target, 'td.sort');
-		if (newTarget) {
-			target = newTarget;
+		var target = e.target;
+
+		if (util.closest(target, 'td.sort')) {
+			target = util.closest(target, 'td.sort');
 			let isAsc = target.classList.contains('sort-asc');
 			this.sortItems(target.dataset.sortby, isAsc ? 'desc' : 'asc');
 		}
-		else if (target.matches('.row-action')) {
+
+		else if (util.closest(target, '.row-action')) {
+			target = util.closest(target, '.row-action');
 			e.preventDefault();
 			let row = util.closest(target, '.grid-row'),
 				action = target.dataset.action,
@@ -145,8 +151,9 @@ export default class Grid {
 			else if (col.icons) {
 				text = Object.keys(col.icons).map(i => {
 					let icon = col.icons[i];
-					let cls = 'row-action fa fa-' + icon.cls;
-					return `<a href="#" class="${cls}" data-action="${i}">${i}</a>`;
+					let cls = 'row-action';
+					return '<a href="#" class="' + cls + '" data-action="' + i +
+						'"><i class="fa fa-' + icon.cls + '"></i></a>';
 				}).join('');
 			}
 			return { cls, text };
