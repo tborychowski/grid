@@ -1,0 +1,272 @@
+html,
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+}
+body {
+  margin: 0;
+  font: 400 15px/1 arial, sans-serif;
+  cursor: default;
+  color: #333;
+  background: #eee;
+}
+* {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: arial, sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+h2 {
+  margin: 0 0 20px;
+  font-weight: 100;
+  font-size: 30px;
+}
+label,
+button,
+input,
+select {
+  font: inherit;
+  height: 27px;
+  vertical-align: top;
+}
+label::-moz-focus-inner,
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+select::-moz-focus-inner {
+  padding: 0;
+  border: 0 solid transparent;
+}
+label:focus,
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px dotted #888;
+}
+select,
+input {
+  border: 1px solid #d9d9d9;
+  padding: 0 5px;
+  background: #f5f5f5;
+  transition: all 0.3s ease-out;
+}
+select:focus,
+input:focus {
+  background: #fff;
+}
+button {
+  cursor: default;
+  padding: 0 15px;
+  background: #d9d9d9;
+  color: #222;
+  outline: none;
+  font-size: 14px;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+button:focus {
+  border: 1px dotted #353535;
+}
+button:active {
+  background: #aaa;
+}
+button:disabled,
+button.disabled {
+  background: #eaeaea;
+  color: #bebebe;
+  cursor: not-allowed;
+}
+button.primary {
+  background: #16499a;
+  color: #fff;
+}
+button.info {
+  background: #4390df;
+  color: #fff;
+}
+button.success {
+  background: #60a917;
+  color: #fff;
+}
+button.warning {
+  background: #fa6800;
+  color: #fff;
+}
+button.danger {
+  background: #9a1616;
+  color: #fff;
+}
+button.link {
+  background: url(../img/transparent) 0 0 no-repeat;
+  color: #2e92cf;
+}
+
+/*** SHORTCUTS ************************************************************************************/
+/*** SHORTCUTS ************************************************************************************/
+/*** STYLE HELPERS ********************************************************************************/
+/*** STYLE HELPERS ********************************************************************************/
+/*** GENERIC HELPERS ******************************************************************************/
+/**
+ * Joins arguments with space and adds "px" to values if needed
+ */
+/**
+ * Vendorize, e.g. -moz-box-shadow
+ */
+/**
+ * Vendorize property value, e.g.  -moz-linear-gradient
+ */
+/*** GENERIC HELPERS ******************************************************************************/
+
+.grid {
+  position: relative;
+  cursor: default;
+  min-height: 240px;
+  font-size: 13px;
+  margin: 10px;
+  border: 1px solid #b3b3b4;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.grid * {
+  box-sizing: border-box;
+}
+.grid-table {
+  width: 100%;
+  color: #333;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.grid-scroller {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  bottom: 24px;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  background: #fff;
+  border-top: 1px solid #b3b3b4;
+  border-bottom: 1px solid #b3b3b4;
+}
+.grid-cell,
+.grid-row .grid-cell {
+  padding: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.grid-cell:last-of-type,
+.grid-row .grid-cell:last-of-type {
+  padding-right: 20px;
+}
+.grid-cell a,
+.grid-row .grid-cell a {
+  color: #333;
+  text-decoration: underline;
+}
+.grid-cell a:hover,
+.grid-row .grid-cell a:hover {
+  text-decoration: none;
+}
+.grid-row .grid-cell {
+  background: #fff;
+  padding: 5px;
+  transition: background-color 0.1s;
+  border-right: 1px solid #b3b3b4;
+}
+.grid-row:first-child {
+  border: none;
+}
+.grid-row:nth-child(odd) .grid-cell {
+  background-color: #fafcfd;
+}
+.grid-row.selected .grid-cell {
+  background: #dae1ed;
+}
+.grid-row:hover .grid-cell {
+  background: #e4ebf7;
+}
+.grid-row.grid-row:first-child .grid-cell {
+  border-top: none;
+}
+.grid-row .grid-no-items {
+  color: #999;
+  padding-left: 20px;
+  border-width: 0 0 1px;
+}
+.grid-row .grid-no-items:hover {
+  background: #fff;
+}
+.grid-header-table {
+  position: relative;
+  z-index: 10;
+}
+.grid-header-table .grid-cell {
+  height: 30px;
+  background: #dae1ed;
+  font-weight: bold;
+}
+.grid-header-table .grid-cell.sort-asc,
+.grid-header-table .grid-cell.sort-desc {
+  text-overflow: clip;
+}
+.grid-header-table .grid-header-cell-inner {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.grid-header-table .sort-asc .grid-header-cell-inner,
+.grid-header-table .sort-desc .grid-header-cell-inner {
+  margin-right: 10px;
+}
+.grid-header-table .sort em {
+  position: relative;
+  float: right;
+  width: 20px;
+  height: 16px;
+  margin: -1px -5px -16px 0;
+  background: url(../img/sortable.png) 0 0 no-repeat;
+}
+.grid-header-table .sort-asc em {
+  display: block;
+  background: url(../img/sort-asc.png) 0 0 no-repeat;
+}
+.grid-header-table .sort-desc em {
+  display: block;
+  background: url(../img/sort-desc.png) 0 0 no-repeat;
+}
+.grid-footer-table {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.grid-footer-table .grid-cell {
+  height: 24px;
+  background-color: #dae1ed;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.grid-header-scroll-over {
+  -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+  -moz-box-shadow: 0 3px 3px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+}
