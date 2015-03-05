@@ -272,8 +272,9 @@
 	}
 	
 	function getItemById(id) {
+		id = id.toString();
 		return this.items.filter(function (item) {
-			return item.id === id;
+			return item.id.toString() === id;
 		})[0];
 	}
 	

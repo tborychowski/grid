@@ -69,7 +69,10 @@ function sortItems (sortBy, order) {
 }
 
 
-function getItemById (id) { return this.items.filter(item => item.id === id)[0]; }
+function getItemById (id) {
+	id = id.toString();
+	return this.items.filter(item => item.id.toString() === id)[0];
+}
 
 
 export default {
