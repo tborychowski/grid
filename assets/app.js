@@ -53,31 +53,38 @@
 	var data = {
 		total: 10,
 		totalAmount: 100,
-		items: [{ id: 1, date: "2015-01-01", amount: 21 }, { id: 2, date: "2015-01-02", amount: 22 }, { id: 3, date: "2015-01-03", amount: 23 }, { id: 4, date: "2015-01-04", amount: 24 }, { id: 5, date: "2015-01-05", amount: 25 }, { id: 6, date: "2015-01-05", amount: 26 }, { id: 7, date: "2015-01-05", amount: 27 }, { id: 8, date: "2015-01-05", amount: 28 }, { id: 9, date: "2015-01-05", amount: 29 }, { id: 10, date: "2015-01-05", amount: 30 }, { id: 11, date: "2015-01-05", amount: 31 }]
+		items: [{ id: 1, date: "2015-01-01", category: "Category", desc: "Description text", amount: 21 }, { id: 2, date: "2015-01-02", category: "Category", desc: "Description text", amount: 22 }, { id: 3, date: "2015-01-03", category: "Category", desc: "Description text", amount: 23 }, { id: 4, date: "2015-01-04", category: "Category", desc: "Description text", amount: 24 }, { id: 5, date: "2015-01-05", category: "Category", desc: "Description text", amount: 25 }, { id: 6, date: "2015-01-05", category: "Category", desc: "Description text", amount: 26 }, { id: 7, date: "2015-01-05", category: "Category", desc: "Description text", amount: 27 }, { id: 8, date: "2015-01-05", category: "Category", desc: "Description text", amount: 28 }, { id: 9, date: "2015-01-05", category: "Category", desc: "Description text", amount: 29 }, { id: 10, date: "2015-01-05", category: "Category", desc: "Description text", amount: 30 }, { id: 11, date: "2015-01-05", category: "Category", desc: "Description text", amount: 31 }]
 	};
+	
+	console.log(Grid);
 	
 	var grid = new Grid({
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
+		items: { root: "items" },
 		dataSource: function dataSource(params) {
 			return data;
 		},
-		columns: [{ name: "Date", field: "date", cls: "date", sortable: true, footer: "Total" }, { name: "Amount", field: "amount", cls: "amount", sortable: true,
+		columns: [{ width: 50, icons: {
+				pencil: function pencil(item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				},
+				"trash-o": function (item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				}
+			} }, { name: "Date", field: "date", width: 85 }, { name: "Category", field: "category", width: "40%" }, { name: "Desc", field: "desc" }, { name: "Amount", field: "amount", width: 90,
 			renderer: function renderer(txt) {
 				return "€" + txt;
 			},
 			footer: function footer(data) {
 				return "€" + data.totalAmount;
 			}
-		}, { width: 70, cls: "action", icons: {
-				info: { cls: "info", action: function action(item, row) {
-						this.selectRow(row, true);
-						console.log(item, row);
-					} }
-			} }]
+		}]
 	});
 	
-	grid.setData(data);
+	grid.load();
 
 /***/ },
 /* 1 */
@@ -87,213 +94,65 @@
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
-	var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
-	
-	var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
-	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var util = _interopRequire(__webpack_require__(2));
+	var data = _interopRequire(__webpack_require__(2));
 	
-	var Grid = (function () {
-		function Grid(cfg) {
-			_classCallCheck(this, Grid);
+	var events = _interopRequire(__webpack_require__(3));
 	
-			var _defaults = {
-				target: document.body,
-				sort: { by: "id", order: "asc" },
-				dataSource: null,
-				items: { label: "items", root: "items", itemId: "id" },
-				columns: []
-			};
-			this.tpl = {
-				frame: __webpack_require__(3),
-				row: __webpack_require__(4)
-			};
-			this.isRendered = false;
-			this.cfg = Object.assign({}, _defaults, cfg);
-			this.cfg.target.classList.add("grid");
-			this.cfg.target.innerHTML = this.tpl.frame();
-			this.el = {
-				target: this.cfg.target,
-				scroller: this.cfg.target.querySelector(".grid-scroller"),
-				head: this.cfg.target.querySelector(".grid-header"),
-				body: this.cfg.target.querySelector(".grid-body"),
-				foot: this.cfg.target.querySelector(".grid-footer"),
-				headTable: this.cfg.target.querySelector(".grid-header-table"),
-				bodyTable: this.cfg.target.querySelector(".grid-body-table")
-			};
-			this.processColumns();
-			this.el.target.addEventListener("click", this.onClick.bind(this));
-			this.el.scroller.addEventListener("scroll", this.onScroll.bind(this));
-		}
+	var html = _interopRequire(__webpack_require__(4));
 	
-		_prototypeProperties(Grid, null, {
-			load: {
-				value: function load() {
-					this.data = {};
-					this.items = [];
-					if (!this.cfg.dataSource) throw "No data source";
-					if (this.cfg.dataSource instanceof Promise) this.cfg.dataSource().then(this.setData);else this.setData(this.cfg.dataSource());
-					return this;
-				},
-				writable: true,
-				configurable: true
-			},
-			setData: {
-				value: function setData(data) {
-					if (!data) throw "No data!";
-					this.data = data;
-					this.items = data[this.cfg.items.root];
-					this.sortItems();
-					return this;
-				},
-				writable: true,
-				configurable: true
-			},
-			sortItems: {
-				value: function sortItems(sortBy, order) {
-					if (sortBy) this.cfg.sort.by = sortBy;
-					if (order) this.cfg.sort.order = order;
+	var columns = _interopRequire(__webpack_require__(5));
 	
-					if (this.items && this.items.length) {
-						if (sortBy) this.items.sort(util.sortFn(this.cfg.sort, this.items));
-					}
-					this.populate();
+	var rows = _interopRequire(__webpack_require__(6));
 	
-					var col,
-					    all = this.el.head.querySelectorAll(".sort");
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
+	var Grid = function Grid(cfg) {
+		_classCallCheck(this, Grid);
 	
-					try {
-						for (var _iterator = all[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							col = _step.value;
-							col.classList.remove("sort-asc", "sort-desc");
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
+		var _defaults = {
+			target: document.body,
+			sort: { by: "id", order: "asc" },
+			dataSource: null,
+			items: { label: "items", root: "", itemId: "id" },
+			columns: []
+		};
+		this.cfg = Object.assign(_defaults, cfg);
+		this.processColumns().draw().initEvents();
+	};
 	
-					this.el.head.querySelector(".sort." + this.cfg.sort.by).classList.add("sort-" + this.cfg.sort.order);
-				},
-				writable: true,
-				configurable: true
-			},
-			processColumns: {
-				value: function processColumns() {
-					var actions = {},
-					    colWidths = [];
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
+	Object.assign(Grid.prototype, data, events, html, columns, rows);
+	module.exports = Grid;
 	
-					try {
-						for (var _iterator = this.cfg.columns[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var col = _step.value;
+	if (!Object.assign) Object.defineProperty(Object, "assign", {
+		enumerable: false,
+		configurable: true,
+		writable: true,
+		value: function value(target) {
+			for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+				sources[_key - 1] = arguments[_key];
+			}
 	
-							if (col.icons) {
-								for (var icon in col.icons) {
-									actions[icon] = col.icons[icon].action;
-								}
-							}
-							if (typeof col.width === "string" && col.width.indexOf("%") === -1) {
-								col.width = parseInt(col.width, 10);
-							}
-							colWidths.push(col.width || "auto");
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
+			if (!target) throw new TypeError("Cannot convert first argument to object");
+			var to = Object(target);
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
 	
-					this.columnWidths = colWidths;
-					this.iconHandlers = actions;
-				},
-				writable: true,
-				configurable: true
-			},
-			updateColumnWidths: {
-				value: function updateColumnWidths() {
-					var autos = 0,
-					    sumW = 0,
-					    remainingW,
-					    autoPercent = 100,
-					    autoW,
-					    headCols = this.el.head.querySelectorAll(".grid-cell"),
-					    bodyCols = this.el.body.querySelectorAll(".grid-row:first-child .grid-cell"),
-					    footCols = this.el.foot.querySelectorAll(".grid-cell");
+			try {
+				for (var _iterator = sources[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var source = _step.value;
 	
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
-	
-					try {
-						for (var _iterator = this.columnWidths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							var col = _step.value;
-	
-							if (typeof col === "number") sumW += col;else if (col === "auto") autos++;else if (col.indexOf("%") > -1) {
-								autoPercent -= parseInt(col, 10);
-								autos++;
-							}
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-	
-					remainingW = this.el.head.offsetWidth - sumW;
-					autoPercent = autoPercent / autos;
-					autoW = remainingW * autoPercent / 100;
-	
+					var keys = Object.keys(Object(source));
 					var _iteratorNormalCompletion2 = true;
 					var _didIteratorError2 = false;
 					var _iteratorError2 = undefined;
 	
 					try {
-						for (var _iterator2 = this.columnWidths.entries()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-							var _step2$value = _slicedToArray(_step2.value, 2);
+						for (var _iterator2 = keys[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+							var key = _step2.value;
 	
-							var i = _step2$value[0];
-							var col = _step2$value[1];
-	
-							if (col === "auto") col = autoPercent + "%";else if (typeof col === "number") col = col + "px";
-	
-							if (headCols[i]) headCols[i].style.width = col;
-							if (bodyCols[i]) bodyCols[i].style.width = col;
-							if (footCols[i]) footCols[i].style.width = col;
+							var desc = Object.getOwnPropertyDescriptor(source, key);
+							if (desc !== undefined && desc.enumerable) to[key] = source[key];
 						}
 					} catch (err) {
 						_didIteratorError2 = true;
@@ -309,166 +168,25 @@
 							}
 						}
 					}
-	
-					this.el.bodyTable.style.width = this.el.headTable.offsetWidth + "px";
-				},
-				writable: true,
-				configurable: true
-			},
-			onClick: {
-				value: function onClick(e) {
-					var target = e.target,
-					    newTarget = util.closest(target, "td.sort");
-					if (newTarget) {
-						target = newTarget;
-						var isAsc = target.classList.contains("sort-asc");
-						this.sortItems(target.dataset.sortby, isAsc ? "desc" : "asc");
-					} else if (target.matches(".row-action")) {
-						e.preventDefault();
-						var row = util.closest(target, ".grid-row"),
-						    action = target.dataset.action,
-						    id = +row.dataset.id,
-						    item = this.getItemById(id);
-						this.iconHandlers[action].call(this, item, row);
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator["return"]) {
+						_iterator["return"]();
 					}
-				},
-				writable: true,
-				configurable: true
-			},
-			onScroll: {
-				value: function onScroll() {
-					var scrld = this.el.scroller.scrollTop > 0;
-					this.el.headTable.classList.toggle("grid-header-scroll-over", scrld);
-				},
-				writable: true,
-				configurable: true
-			},
-			getItemById: {
-				value: function getItemById(id) {
-					return this.items.filter(function (item) {
-						return item.id === id;
-					})[0];
-				},
-				writable: true,
-				configurable: true
-			},
-			getItemRow: {
-				value: function getItemRow(item) {
-					var _this = this;
-	
-					return this.cfg.columns.map(function (col) {
-						var text = item[col.field];
-						var cls = col.cls ? " " + col.cls : "";
-						if (typeof col.renderer === "function") text = col.renderer.call(_this, text, item);else if (col.icons) {
-							text = Object.keys(col.icons).map(function (i) {
-								var icon = col.icons[i];
-								var cls = "row-action fa fa-" + icon.cls;
-								return "<a href=\"#\" class=\"" + cls + "\" data-action=\"" + i + "\">" + i + "</a>";
-							}).join("");
-						}
-						return { cls: cls, text: text };
-					}, this);
-				},
-				writable: true,
-				configurable: true
-			},
-			getHeader: {
-				value: function getHeader() {
-					var cells = this.cfg.columns.map(function (col) {
-						var text = col.name || "";
-						var cls = "grid-cell grid-header-cell" + (col.cls ? " " + col.cls : "");
-						if (col.sortable) cls += " sort";
-						return "<td class=\"" + cls + "\" data-sortby=\"" + col.field + "\">" + "<em></em><span class=\"grid-header-cell-inner\">" + text + "</span></td>";
-					}, this);
-					return cells.join("");
-				},
-				writable: true,
-				configurable: true
-			},
-			getFooter: {
-				value: function getFooter() {
-					var _this = this;
-	
-					var cells = this.cfg.columns.map(function (col) {
-						var text = "";
-						var cls = "grid-cell grid-footer-cell" + (col.cls ? " " + col.cls : "");
-						if (typeof col.footer === "function") text = col.footer.call(_this, _this.data);else if (typeof col.footer === "string") text = col.footer;
-						return "<td class=\"" + cls + "\"><span class=\"grid-footer-cell-inner\">" + text + "</span></td>";
-					}, this);
-					return cells.join("");
-				},
-				writable: true,
-				configurable: true
-			},
-			getBody: {
-				value: function getBody() {
-					var _this = this;
-	
-					return this.items.map(function (item) {
-						return _this.tpl.row({ id: item.id, cells: _this.getItemRow(item) });
-					}, this).join("");
-				},
-				writable: true,
-				configurable: true
-			},
-			populate: {
-				value: function populate() {
-					if (!this.isRendered) {
-						this.el.head.innerHTML = this.getHeader();
-						this.el.foot.innerHTML = this.getFooter();
-						this.isRendered = true;
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
 					}
-					this.el.body.innerHTML = this.getBody();
-					this.updateColumnWidths();
-				},
-				writable: true,
-				configurable: true
-			},
-			selectRow: {
-				value: function selectRow(row, unselectOther) {
-					if (unselectOther) this.unselectRows();
-					row.classList.add("selected");
-				},
-				writable: true,
-				configurable: true
-			},
-			unselectRows: {
-				value: function unselectRows() {
-					var row,
-					    rows = this.el.body.querySelectorAll(".grid-row.selected");
-					var _iteratorNormalCompletion = true;
-					var _didIteratorError = false;
-					var _iteratorError = undefined;
-	
-					try {
-						for (var _iterator = rows[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-							row = _step.value;
-							row.classList.remove("selected");
-						}
-					} catch (err) {
-						_didIteratorError = true;
-						_iteratorError = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion && _iterator["return"]) {
-								_iterator["return"]();
-							}
-						} finally {
-							if (_didIteratorError) {
-								throw _iteratorError;
-							}
-						}
-					}
-				},
-				writable: true,
-				configurable: true
+				}
 			}
-		});
 	
-		return Grid;
-	})();
-	
-	module.exports = Grid;
+			return to;
+		}
+	});
 
 /***/ },
 /* 2 */
@@ -476,7 +194,7 @@
 
 	"use strict";
 	
-	function type(items, field) {
+	function _type(items, field) {
 		if (!items || !items.length) {
 			return "str";
 		}var i, v, t, item;
@@ -488,11 +206,11 @@
 		return t || "str";
 	}
 	
-	function sortFn(sort, items) {
+	function _sortFn(sort, items) {
 		var by = sort.by,
 		    order = sort.order,
-		    sortType = type(items, by),
-		    strCmp = function strCmp(a, b, by) {
+		    sortType = _type(items, by),
+		    strCmp = function (a, b) {
 			return ("" + a[by]).toLowerCase().localeCompare(("" + b[by]).toLowerCase());
 		};
 	
@@ -509,17 +227,71 @@
 		} else {
 			if (order === "asc") {
 				return function (a, b) {
-					return strCmp(a, b, by);
+					return strCmp(a, b);
 				};
 			} else {
 				return function (a, b) {
-					return strCmp(b, a, by);
+					return strCmp(b, a);
 				};
 			}
 		}
 	}
 	
-	function closest(el, selector) {
+	function load() {
+		this.data = {};
+		this.items = [];
+		if (!this.cfg.dataSource) throw "No data source";
+		var src = this.cfg.dataSource();
+		if (src instanceof Promise) src.then(this.setData.bind(this));else this.setData(src);
+		return this;
+	}
+	
+	function setData(data) {
+		if (!data) throw "No data!";
+		this.data = data;
+		if (this.cfg.items.root) this.items = data[this.cfg.items.root];else this.items = data;
+		return this.sortItems();
+	}
+	
+	function sortItems(sortBy, order) {
+		if (sortBy) this.cfg.sort.by = sortBy;
+		if (order) this.cfg.sort.order = order;
+	
+		if (this.items.length) {
+			this.items.sort(_sortFn({ by: "id", order: "desc" }, this.items));
+			if (sortBy) this.items.sort(_sortFn(this.cfg.sort, this.items));
+		}
+		this.populate();
+	
+		var all = this.el.head.querySelectorAll(".sort .fa-sort"),
+		    cur = this.el.head.querySelector(".sort." + this.cfg.sort.by + " .fa-sort");
+		for (var i = 0, l = all.length; i < l; i++) {
+			all[i].classList.remove("fa-sort-asc", "fa-sort-desc");
+		}
+		if (cur) cur.classList.add("fa-sort-" + this.cfg.sort.order);
+		return this;
+	}
+	
+	function getItemById(id) {
+		return this.items.filter(function (item) {
+			return item.id === id;
+		})[0];
+	}
+	
+	module.exports = {
+		load: load,
+		setData: setData,
+		sortItems: sortItems,
+		getItemById: getItemById
+	};
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	function _closest(el, selector) {
 		var has = false;
 		while (!has && el) {
 			has = el.matches(selector);
@@ -533,47 +305,62 @@
 		return null;
 	}
 	
-	function merge(target) {
-		for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-			sources[_key - 1] = arguments[_key];
-		}
+	function _onClick(e) {
+		var target = e.target;
 	
-		if (!target) throw new TypeError("Cannot convert first argument to object");
-		var to = Object(target);
+		if (_closest(target, "td.sort")) {
+			target = _closest(target, "td.sort");
+			var icon = target.querySelector(".fa-sort");
+			var isDesc = icon.classList.contains("fa-sort-desc");
+			this.sortItems(target.dataset.sortby, isDesc ? "asc" : "desc");
+		} else if (_closest(target, ".row-action")) {
+			target = _closest(target, ".row-action");
+			e.preventDefault();
+			var row = _closest(target, ".grid-row"),
+			    action = target.dataset.action,
+			    id = +row.dataset.id,
+			    item = this.getItemById(id);
+			this.iconHandlers[action].call(this, item, row);
+		}
+	}
+	
+	function _onScroll() {
+		var scrld = this.el.scroller.scrollTop > 0;
+		this.el.headTable.classList.toggle("grid-header-scroll-over", scrld);
+	}
+	
+	function initEvents() {
+		this.el.scroller.addEventListener("scroll", _onScroll.bind(this));
+		this.el.target.addEventListener("click", _onClick.bind(this));
+	}
+	
+	module.exports = {
+		initEvents: initEvents
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var frameTpl = __webpack_require__(7);
+	var rowTpl = __webpack_require__(8);
+	var headerCellTpl = __webpack_require__(9);
+	var footerCellTpl = __webpack_require__(10);
+	
+	function _getRowIcons(icons) {
+		var iconHtml = "",
+		    icon;
 		var _iteratorNormalCompletion = true;
 		var _didIteratorError = false;
 		var _iteratorError = undefined;
 	
 		try {
-			for (var _iterator = sources[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-				var source = _step.value;
+			for (var _iterator = Object.keys(icons)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				icon = _step.value;
 	
-				var keys = Object.keys(Object(source));
-				var _iteratorNormalCompletion2 = true;
-				var _didIteratorError2 = false;
-				var _iteratorError2 = undefined;
-	
-				try {
-					for (var _iterator2 = keys[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-						var key = _step2.value;
-	
-						var desc = Object.getOwnPropertyDescriptor(source, key);
-						if (desc !== undefined && desc.enumerable) to[key] = source[key];
-					}
-				} catch (err) {
-					_didIteratorError2 = true;
-					_iteratorError2 = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
-							_iterator2["return"]();
-						}
-					} finally {
-						if (_didIteratorError2) {
-							throw _iteratorError2;
-						}
-					}
-				}
+				iconHtml += "<a href=\"#\" class=\"row-action\" data-action=\"" + icon + "\"><i class=\"fa fa-" + icon + "\"></i></a>";
 			}
 		} catch (err) {
 			_didIteratorError = true;
@@ -590,35 +377,329 @@
 			}
 		}
 	
-		return to;
+		return iconHtml;
 	}
 	
-	if (!Object.assign) Object.defineProperty(Object, "assign", { value: merge,
-		enumerable: false, configurable: true, writable: true
-	});
+	function _getHeaderRow() {
+		var cells = [];
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = this.cfg.columns[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var col = _step.value;
+	
+				var sortCls = col.sortable ? "sort" : "";
+				col.headerCls = ["grid-cell", "grid-header-cell", col.field, sortCls].join(" ");
+				cells.push(headerCellTpl(col));
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		return cells.join("");
+	}
+	
+	function _getFooterRow() {
+		var cells = [];
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = this.cfg.columns[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var col = _step.value;
+	
+				col.footerCls = ["grid-cell", "grid-footer-cell", col.field].join(" ");
+				if (typeof col.footer === "function") col.footerText = col.footer.call(this, this.data);else col.footerText = col.footer || "";
+				cells.push(footerCellTpl(col));
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		return cells.join("");
+	}
+	
+	function _getBodyRow(item) {
+		var cells = [];
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = this.cfg.columns[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var col = _step.value;
+	
+				var cls = [col.field, col.icons ? "action" : ""].join(" ");
+				var text = item[col.field];
+	
+				if (typeof col.renderer === "function") text = col.renderer.call(this, text, item);else if (col.icons) text = _getRowIcons(col.icons);
+	
+				cells.push({ cls: cls, text: text });
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		return cells;
+	}
+	
+	function _getBody() {
+		var _this = this;
+	
+		return this.items.map(function (item) {
+			return rowTpl({ id: item.id, cells: _getBodyRow.call(_this, item) });
+		}, this).join("");
+	}
+	
+	function populate() {
+		if (!this.isRendered) {
+			this.el.head.innerHTML = _getHeaderRow.call(this);
+			this.el.foot.innerHTML = _getFooterRow.call(this);
+			this.isRendered = true;
+		}
+		this.el.body.innerHTML = _getBody.call(this);
+		return this.updateColumnWidths();
+	}
+	
+	function draw() {
+		this.isRendered = false;
+		this.cfg.target.innerHTML = frameTpl();
+		this.el = {
+			target: this.cfg.target,
+			scroller: this.cfg.target.querySelector(".grid-scroller"),
+			head: this.cfg.target.querySelector(".grid-header"),
+			body: this.cfg.target.querySelector(".grid-body"),
+			foot: this.cfg.target.querySelector(".grid-footer"),
+			headTable: this.cfg.target.querySelector(".grid-header-table"),
+			bodyTable: this.cfg.target.querySelector(".grid-body-table")
+		};
+		return this;
+	}
 	
 	module.exports = {
-		type: type,
-		sortFn: sortFn,
-		closest: closest
+		populate: populate,
+		draw: draw
 	};
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var H = __webpack_require__(5);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("	<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("</table>\r");t.b("\n" + i);t.b("<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("		<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>\r");t.b("\n" + i);t.b("<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("	<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("</table>");return t.fl(); },partials: {}, subs: {  }}, "<table class=\"grid-table grid-header-table\">\r\n\t<thead><tr class=\"grid-header\"></tr></thead>\r\n</table>\r\n<div class=\"grid-scroller\">\r\n\t<table class=\"grid-table grid-body-table\">\r\n\t\t<tbody class=\"grid-body\"></tbody>\r\n\t</table>\r\n</div>\r\n<table class=\"grid-table grid-footer-table\">\r\n\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n</table>", H); return T.render.apply(T, arguments); };
+	"use strict";
+	
+	function processColumns() {
+		var actions = {},
+		    colWidths = [];
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = this.cfg.columns[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var col = _step.value;
+	
+				col.name = col.name || "";
+				col.field = col.field || "";
+				col.sortable = col.sortable !== false && !col.icons;
+	
+				if (col.icons) {
+					for (var icon in col.icons) {
+						actions[icon] = col.icons[icon];
+					}
+				}
+				if (typeof col.width === "string" && col.width.indexOf("%") === -1) {
+					col.width = parseInt(col.width, 10);
+				}
+				colWidths.push(col.width || "auto");
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		this.columnWidths = colWidths;
+		this.iconHandlers = actions;
+		return this;
+	}
+	
+	function updateColumnWidths() {
+		var autos = 0,
+		    sumW = 0,
+		    remainingW,
+		    autoPercent = 100,
+		    autoW,
+		    headCols = this.el.head.querySelectorAll(".grid-cell"),
+		    bodyCols = this.el.body.querySelectorAll(".grid-row:first-of-type .grid-cell"),
+		    footCols = this.el.foot.querySelectorAll(".grid-cell");
+	
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = this.columnWidths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var col = _step.value;
+	
+				if (typeof col === "number") sumW += col;else if (col === "auto") autos++;else if (col.indexOf("%") > -1) autoPercent -= parseInt(col, 10);
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		remainingW = this.el.head.offsetWidth - sumW;
+		autoPercent = autoPercent / autos;
+		autoW = remainingW * autoPercent / 100;
+	
+		this.columnWidths.forEach(function (col, i) {
+			if (col === "auto") col = autoPercent + "%";else if (typeof col === "number") col = col + "px";
+	
+			if (headCols[i]) headCols[i].style.width = col;
+			if (bodyCols[i]) bodyCols[i].style.width = col;
+			if (footCols[i]) footCols[i].style.width = col;
+		});
+		this.el.bodyTable.style.width = this.el.headTable.offsetWidth + "px";
+		return this;
+	}
+	
+	module.exports = {
+		processColumns: processColumns,
+		updateColumnWidths: updateColumnWidths
+	};
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var H = __webpack_require__(5);
+	"use strict";
+	
+	function selectRow(row, unselectOther) {
+		if (unselectOther) this.unselectRows();
+		row.classList.add("selected");
+		return this;
+	}
+	
+	function unselectRows() {
+		var row,
+		    rows = this.el.body.querySelectorAll(".grid-row.selected");
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+	
+		try {
+			for (var _iterator = rows[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				row = _step.value;
+				row.classList.remove("selected");
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	
+		return this;
+	}
+	
+	module.exports = {
+		selectRow: selectRow,
+		unselectRows: unselectRows
+	};
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var H = __webpack_require__(11);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"grid\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("		<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("	<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("		<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("			<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("		</table>\r");t.b("\n" + i);t.b("	</div>\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("		<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }}, "<div class=\"grid\">\r\n\t<table class=\"grid-table grid-header-table\">\r\n\t\t<thead><tr class=\"grid-header\"></tr></thead>\r\n\t</table>\r\n\t<div class=\"grid-scroller\">\r\n\t\t<table class=\"grid-table grid-body-table\">\r\n\t\t\t<tbody class=\"grid-body\"></tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<table class=\"grid-table grid-footer-table\">\r\n\t\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n\t</table>\r\n</div>", H); return T.render.apply(T, arguments); };
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var H = __webpack_require__(11);
 	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<tr data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\" class=\"grid-row\">\r");t.b("\n" + i);if(t.s(t.f("cells",c,p,1),c,p,0,51,140,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		<td class=\"grid-cell ");t.b(t.v(t.f("cls",c,p,0)));t.b("\"><span class=\"grid-cell-inner\">");t.b(t.t(t.f("text",c,p,0)));t.b("</span></td>\r");t.b("\n" + i);});c.pop();}t.b("</tr>");return t.fl(); },partials: {}, subs: {  }}, "<tr data-id=\"{{id}}\" class=\"grid-row\">\r\n\t{{#cells}}\r\n\t\t<td class=\"grid-cell {{cls}}\"><span class=\"grid-cell-inner\">{{{text}}}</span></td>\r\n\t{{/cells}}\r\n</tr>", H); return T.render.apply(T, arguments); };
 
 /***/ },
-/* 5 */
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var H = __webpack_require__(11);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("headerCls",c,p,0)));t.b("\" data-sortby=\"");t.b(t.v(t.f("field",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	");if(t.s(t.f("sortable",c,p,1),c,p,0,66,92,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-sort\"></i>");});c.pop();}t.b("\r");t.b("\n" + i);t.b("	<span class=\"grid-header-cell-inner\">");t.b(t.v(t.f("name",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{headerCls}}\" data-sortby=\"{{field}}\">\r\n\t{{#sortable}}<i class=\"fa fa-sort\"></i>{{/sortable}}\r\n\t<span class=\"grid-header-cell-inner\">{{name}}</span>\r\n</td>", H); return T.render.apply(T, arguments); };
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var H = __webpack_require__(11);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("footerCls",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<span class=\"grid-footer-cell-inner\">");t.b(t.v(t.f("footerText",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{footerCls}}\">\r\n\t<span class=\"grid-footer-cell-inner\">{{footerText}}</span>\r\n</td>", H); return T.render.apply(T, arguments); };
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -638,14 +719,14 @@
 	
 	// This file is for use with Node.js. See dist/ for browser files.
 	
-	var Hogan = __webpack_require__(6);
-	Hogan.Template = __webpack_require__(7).Template;
+	var Hogan = __webpack_require__(12);
+	Hogan.Template = __webpack_require__(13).Template;
 	Hogan.template = Hogan.Template;
 	module.exports = Hogan;
 
 
 /***/ },
-/* 6 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -1074,7 +1155,7 @@
 
 
 /***/ },
-/* 7 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

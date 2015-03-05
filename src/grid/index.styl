@@ -13,7 +13,7 @@ row-alt-bg = #FAFCFD;
 row-hover-bg = #E4EBF7;
 
 .grid
-	cursor default; min-height 240px; font 13; border border-color; margin-right 10;
+	pos 0 0 0 0; cursor default; min-height 240px; font 13; border border-color; margin-right 10;
 	not-selectable();
 	*
 		box-sizing border-box;
@@ -28,18 +28,21 @@ row-hover-bg = #E4EBF7;
 .grid-cell
 .grid-row .grid-cell
 	padding 0 5; white-space nowrap; overflow hidden; text-overflow ellipsis;
-	&:last-of-type
-		padding-right 20;
 
-	a
+	.row-action, a
 		color text-color; u 1;
 		&:hover
 			u 0;
 
+.grid-footer-table
+.grid-body-table
+	.grid-cell:last-of-type
+		padding-right 24;
+
 .grid-row
 	.grid-cell
 		bg row-bg; padding 5; transition background-color .1s;
-		border-right border-color
+		border-right border-color-inner
 
 		&:last-child
 			border none;
@@ -65,11 +68,9 @@ row-hover-bg = #E4EBF7;
 			bg row-bg;
 
 	.action
-		text-align right; padding-left 0;
+		padding-left 0; padding-right 0; text-align center;
 		.row-action
-			size 21; font 14; padding 3 4 0; text-align right; u 0; show 1;
-		.fa
-			u 0;
+			size 21; font 14; padding 3 4 0; text-align center; u 0; show 1; margin
 
 
 
@@ -78,8 +79,24 @@ row-hover-bg = #E4EBF7;
 
 	.grid-cell
 		height header-height; bg header-bg; b 1;
-		&.sort-asc, &.sort-desc
-			text-overflow clip;
+		.fa-sort
+		.fa-sort-asc
+		.fa-sort-desc
+			float right; margin 9 6 0 0; color rgba(#000, 0.1); font 12; transition color .3s ease-out;
+
+		&:hover .fa-sort
+			color rgba(#000, 0.2);
+
+		&:hover, &
+			.fa-sort-asc
+			.fa-sort-desc
+				color #444;
+
+		.fa-sort-asc
+			margin-top 11;
+
+		.fa-sort-desc
+			margin-top 7;
 
 
 	.grid-header-cell-inner
@@ -90,17 +107,6 @@ row-hover-bg = #E4EBF7;
 		.grid-header-cell-inner
 			margin-right 10
 
-	.sort em
-		position relative; float right; size 20 16; margin 8 -5 -16 0;
-		bg 'sortable.png';
-
-	.sort-asc em
-		display block; bg 'sort-asc.png';
-
-	.sort-desc em
-		display block; bg 'sort-desc.png';
-
-
 .grid-footer-table
 	pos auto 0 0 0;
 	.grid-cell
@@ -109,5 +115,5 @@ row-hover-bg = #E4EBF7;
 
 
 .grid-header-scroll-over
-	shadow 0 3 3 #000 .3, 0 1 0 #ddd;
+	shadow 0 4 3 -1 #000 .3, 0 1 0 #ddd;
 
