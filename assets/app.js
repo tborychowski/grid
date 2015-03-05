@@ -59,7 +59,6 @@
 	var grid = new Grid({
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
-		items: { root: "items" },
 		dataSource: function dataSource(params) {
 			return data;
 		},
@@ -111,7 +110,7 @@
 			target: document.body,
 			sort: { by: "id", order: "asc" },
 			dataSource: null,
-			items: { label: "items", root: "", itemId: "id" },
+			items: { label: "items", root: "items", itemId: "id" },
 			columns: []
 		};
 		this.cfg = Object.assign(_defaults, cfg);
@@ -247,7 +246,9 @@
 	function setData(data) {
 		if (!data) throw "No data!";
 		this.data = data;
-		if (this.cfg.items.root) this.items = data[this.cfg.items.root];else this.items = data;
+		if (this.cfg.items.root && data[this.cfg.items.root]) {
+			this.items = data[this.cfg.items.root];
+		} else this.items = data;
 		return this.sortItems();
 	}
 	

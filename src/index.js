@@ -11,7 +11,7 @@ class Grid {
 			target: document.body,
 			sort: { by: 'id', order: 'asc' },
 			dataSource: null,
-			items: { label: 'items', root: '', itemId: 'id' },
+			items: { label: 'items', root: 'items', itemId: 'id' },
 			columns: []
 		};
 		this.cfg = Object.assign(_defaults, cfg);

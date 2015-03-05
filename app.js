@@ -21,7 +21,6 @@ var data = {
 var grid = new Grid({
 	target: document.getElementById('grid'),
 	sort: { by: 'date', order: 'desc' },
-	items: { root: 'items' },
 	dataSource: function (params) {
 		//return $.ajax('data.json', params);
 		return data;

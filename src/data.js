@@ -41,7 +41,9 @@ function load () {
 function setData (data) {
 	if (!data) throw 'No data!';
 	this.data = data;
-	if (this.cfg.items.root) this.items = data[this.cfg.items.root];
+	if (this.cfg.items.root && data[this.cfg.items.root]) {
+		this.items = data[this.cfg.items.root];
+	}
 	else this.items = data;
 	return this.sortItems();
 }
