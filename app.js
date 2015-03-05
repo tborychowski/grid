@@ -1,4 +1,4 @@
-import Grid from 'grid';
+import Grid from 'src';
 
 var data = {
 	total: 10,
@@ -17,8 +17,6 @@ var data = {
 		{ id: 11, date: '2015-01-05', category: 'Category', desc: 'Description text', amount: 31 }
 	]
 };
-
-console.log(Grid);
 
 var grid = new Grid({
 	target: document.getElementById('grid'),

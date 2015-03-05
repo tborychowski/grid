@@ -9,8 +9,7 @@ var gulp = require('gulp'),
 	notify = require('gulp-notify'),
 	concat = require('gulp-concat'),
 	plumber = require('gulp-plumber'),
-	del = require('del'),
-	path = require('path');
+	del = require('del');
 
 var wpConfig = {
 		debug: false,
@@ -21,7 +20,7 @@ var wpConfig = {
 			sourceMapFilename: 'app.js.map'
 		},
 		resolve: {
-			root: path.join(__dirname, '/src'),
+			root: __dirname,
 			extensions: ['', '.js', '.json']
 		},
 		module: {
@@ -46,7 +45,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('js', function () {
-	return gulp.src(['src/app.js'])
+	return gulp.src(['app.js'])
 		.pipe(webpack(wpConfig, null, wpErr))
 		.pipe(gulp.dest('assets'))
 		.pipe(live());
@@ -54,16 +53,16 @@ gulp.task('js', function () {
 
 
 gulp.task('jshint', function () {
-	return gulp.src([ 'src/app.js', 'src/**/*.js' ])
+	return gulp.src([ 'app.js', 'src/**/*.js' ])
 		.pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
-		.pipe(jshint('src/.jshintrc'))
+		.pipe(jshint('.jshintrc'))
 		.pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('styl', function () {
-	return gulp.src(['src/app.styl', 'src/**/*.styl'])
+	return gulp.src(['app.styl', 'src/**/*.styl'])
 		.pipe(plumber({ errorHandler: notify.onError('Error: <%= error.message %>') }))
-		.pipe(stylus({ paths: ['src'], 'include css': true }))
+		.pipe(stylus({ paths: ['./'], 'include css': true }))
 		.pipe(concat('app.css'))
 		.pipe(gulp.dest('assets'))
 		.pipe(live());
@@ -78,7 +77,7 @@ gulp.task('fonts', function () {
 gulp.task('watch', function () {
 	live.listen();
 	gulp.watch('src/**/*.styl', ['styl']);
-	gulp.watch(['src/*.js', 'src/**/*.js'], ['js', 'jshint']);
+	gulp.watch(['./*.js', 'src/**/*.js'], ['js', 'jshint']);
 });
 
 gulp.task('default', ['clean', 'js', 'styl', 'fonts', 'watch']);

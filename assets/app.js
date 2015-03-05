@@ -56,8 +56,6 @@
 		items: [{ id: 1, date: "2015-01-01", category: "Category", desc: "Description text", amount: 21 }, { id: 2, date: "2015-01-02", category: "Category", desc: "Description text", amount: 22 }, { id: 3, date: "2015-01-03", category: "Category", desc: "Description text", amount: 23 }, { id: 4, date: "2015-01-04", category: "Category", desc: "Description text", amount: 24 }, { id: 5, date: "2015-01-05", category: "Category", desc: "Description text", amount: 25 }, { id: 6, date: "2015-01-05", category: "Category", desc: "Description text", amount: 26 }, { id: 7, date: "2015-01-05", category: "Category", desc: "Description text", amount: 27 }, { id: 8, date: "2015-01-05", category: "Category", desc: "Description text", amount: 28 }, { id: 9, date: "2015-01-05", category: "Category", desc: "Description text", amount: 29 }, { id: 10, date: "2015-01-05", category: "Category", desc: "Description text", amount: 30 }, { id: 11, date: "2015-01-05", category: "Category", desc: "Description text", amount: 31 }]
 	};
 	
-	console.log(Grid);
-	
 	var grid = new Grid({
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
