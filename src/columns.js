@@ -43,13 +43,25 @@ function updateColumnWidths () {
 		if (bodyCols[i]) bodyCols[i].style.width = col;
 		if (footCols[i]) footCols[i].style.width = col;
 	});
-	this.el.bodyTable.style.width = this.el.headTable.offsetWidth + 'px';
+
+	return this.updateTableWidths();
+}
+
+function updateTableWidths () {
+	let headW = this.el.headTable.offsetWidth,
+		bodyW = this.el.bodyTable.offsetWidth;
+
+	this.el.bodyTable.style.width = (bodyW === headW ? '100%' : headW + 'px');
+
 	return this;
 }
 
 
+
+
 export default {
 	processColumns,
-	updateColumnWidths
+	updateColumnWidths,
+	updateTableWidths
 };
 

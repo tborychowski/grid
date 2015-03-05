@@ -327,9 +327,16 @@
 		this.el.headTable.classList.toggle("grid-header-scroll-over", scrld);
 	}
 	
+	var resizeThrottle;
+	function _onResize() {
+		if (resizeThrottle) window.clearTimeout(resizeThrottle);
+		resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 100);
+	}
+	
 	function initEvents() {
 		this.el.scroller.addEventListener("scroll", _onScroll.bind(this));
 		this.el.target.addEventListener("click", _onClick.bind(this));
+		window.addEventListener("resize", _onResize.bind(this));
 	}
 	
 	module.exports = {
@@ -612,13 +619,23 @@
 			if (bodyCols[i]) bodyCols[i].style.width = col;
 			if (footCols[i]) footCols[i].style.width = col;
 		});
-		this.el.bodyTable.style.width = this.el.headTable.offsetWidth + "px";
+	
+		return this.updateTableWidths();
+	}
+	
+	function updateTableWidths() {
+		var headW = this.el.headTable.offsetWidth,
+		    bodyW = this.el.bodyTable.offsetWidth;
+	
+		this.el.bodyTable.style.width = bodyW === headW ? "100%" : headW + "px";
+	
 		return this;
 	}
 	
 	module.exports = {
 		processColumns: processColumns,
-		updateColumnWidths: updateColumnWidths
+		updateColumnWidths: updateColumnWidths,
+		updateTableWidths: updateTableWidths
 	};
 
 /***/ },

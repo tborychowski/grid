@@ -82,9 +82,11 @@ button:focus {
   border: 1px dotted #353535;
 }
 #grid {
-  position: relative;
-  margin: 20px;
-  width: 600px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
 }
 #grid .grid-body .amount,
 #grid .grid-footer .amount {
@@ -188,15 +190,13 @@ button:focus {
   background: #fff;
 }
 .grid-row .action {
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   text-align: center;
 }
 .grid-row .action .row-action {
-  width: 21px;
-  height: 21px;
+  width: 20px;
   font-size: 14px;
-  padding: 3px 4px 0;
+  padding: 3px 4px;
   text-align: center;
   text-decoration: none;
   display: inline-block;

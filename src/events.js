@@ -37,10 +37,16 @@ function _onScroll () {
 	this.el.headTable.classList.toggle('grid-header-scroll-over', scrld);
 }
 
+var resizeThrottle;
+function _onResize () {
+	if (resizeThrottle) window.clearTimeout(resizeThrottle);
+	resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 100);
+}
 
 function initEvents () {
 	this.el.scroller.addEventListener('scroll', _onScroll.bind(this));
 	this.el.target.addEventListener('click', _onClick.bind(this));
+	window.addEventListener('resize', _onResize.bind(this));
 }
 
 
