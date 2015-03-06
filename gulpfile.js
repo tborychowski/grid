@@ -3,7 +3,6 @@
 var gulp = require('gulp'),
 	webpack = require('gulp-webpack'),
 	live = require('gulp-livereload'),
-	copy = require('gulp-copy'),
 	stylus = require('gulp-stylus'),
 	jshint = require('gulp-jshint'),
 	notify = require('gulp-notify'),
@@ -40,9 +39,7 @@ var wpConfig = {
 		if (err.length) notify.onError('Error: ' + err[0].message);
 	};
 
-gulp.task('clean', function (cb) {
-	del(['assets/**/*.{css,js,map}', 'fonts/*.*'], cb);
-});
+gulp.task('clean', function (cb) { del(['assets/**/*.{css,js,map}'], cb); });
 
 gulp.task('js', function () {
 	return gulp.src(['app.js'])
@@ -69,15 +66,10 @@ gulp.task('styl', function () {
 });
 
 
-gulp.task('fonts', function () {
-	return gulp.src([ 'node_modules/font-awesome/fonts/*.*' ])
-		.pipe(copy('./fonts', { prefix: 3 }));
-});
-
 gulp.task('watch', function () {
 	live.listen();
 	gulp.watch('**/*.styl', ['styl']);
 	gulp.watch(['app.js', 'src/**/*.js'], ['js', 'jshint']);
 });
 
-gulp.task('default', ['clean', 'js', 'styl', 'fonts', 'watch']);
+gulp.task('default', ['clean', 'js', 'styl', 'watch']);
