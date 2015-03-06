@@ -5,49 +5,34 @@ footer-height = 24px;
 cell-vpad = 8px;
 cell-hpad = 5px;
 
-// light theme
-text-color = #333;
-grid-border-color = #B3B3B4;
-grid-inner-border-color = #B3B3B4;
-cell-border-color = #ddd;
-header-bg = #DAE1ED;
-row-bg = #fff;
-row-alt-bg = #FAFCFD;
-row-hover-bg = #E4EBF7;
-
-
 .grid
-	pos 0 0 0 0; cursor default; min-height 240px; font 13; border grid-border-color; margin-right 10;
-	not-selectable();
+	pos 0 0 0 0; cursor default; min-height 240px; font 13; margin-right 10; not-selectable();
 	*
 		box-sizing border-box;
 
 .grid-table
-	width 100%; color text-color; border-collapse collapse; table-layout fixed;
+	width 100%; border-collapse collapse; table-layout fixed;
 
 .grid-scroller
-	pos header-height 0 footer-height 0; overflow hidden; overflow-y auto; background-color row-bg;
-	border-top grid-inner-border-color; border-bottom grid-inner-border-color;
+	pos header-height 0 footer-height 0; overflow hidden; overflow-y auto;
 
 .grid-cell
 .grid-row .grid-cell
-	white-space nowrap; overflow hidden; text-overflow ellipsis;
-	padding 0 cell-hpad;
+	white-space nowrap; overflow hidden; text-overflow ellipsis; padding 0 cell-hpad;
 
 	.row-action, a
-		color text-color; u 1;
+		u 1;
 		&:hover
 			u 0;
 
 .grid-footer-table
 .grid-body-table
 	.grid-cell:last-of-type
-		padding-right 24;
+		padding-right 30;
 
 .grid-row
 	.grid-cell
-		background-color row-bg; border-right cell-border-color; transition background-color .1s;
-		padding-top cell-vpad; padding-bottom cell-vpad;
+		padding-top cell-vpad; padding-bottom cell-vpad; transition background-color .1s;
 
 		&:last-child
 			border none;
@@ -55,22 +40,11 @@ row-hover-bg = #E4EBF7;
 	&:first-child
 		border none;
 
-	&:nth-child(odd) .grid-cell
-		background-color row-alt-bg;
-
-	&.selected .grid-cell
-		background-color header-bg;
-
-	&:hover .grid-cell
-		background-color row-hover-bg;
-
 	&.grid-row:first-child .grid-cell
 		border-top none;
 
 	.grid-no-items
-		color rgba(text-color, .7); padding-left 20; border-width 0 0 1px;
-		&:hover
-			background-color row-bg;
+		padding-left 20; border-width 0 0 1px;
 
 	.action
 		padding 0; text-align center;
@@ -83,19 +57,12 @@ row-hover-bg = #E4EBF7;
 	position relative; z 10;
 
 	.grid-cell
-		height header-height; background-color header-bg; b 1;
+		height header-height; b 1;
+
 		.fa-sort
 		.fa-sort-asc
 		.fa-sort-desc
-			float right; margin 9 6 0 0; color rgba(text-color, 0.2); font 12; transition color .3s ease-out;
-
-		&:hover .fa-sort
-			color rgba(text-color, 0.4);
-
-		&:hover, &
-			.fa-sort-asc
-			.fa-sort-desc
-				color text-color;
+			float right; margin 9 6 0 0; font 12; transition color .3s ease-out;
 
 		.fa-sort-asc
 			margin-top 11;
@@ -105,18 +72,17 @@ row-hover-bg = #E4EBF7;
 
 
 	.grid-header-cell-inner
-		display block; overflow hidden; text-overflow ellipsis; white-space nowrap;
-		line-height header-height;
+		show 2; overflow hidden; text-overflow ellipsis; white-space nowrap; line-height header-height;
 
-	.sort-asc, .sort-desc
+	.sort-asc
+	.sort-desc
 		.grid-header-cell-inner
 			margin-right 10
 
 .grid-footer-table
 	pos auto 0 0 0;
 	.grid-cell
-		height footer-height; background-color header-bg;
-		b 1; white-space nowrap; overflow hidden; text-overflow ellipsis;
+		height footer-height; b 1; white-space nowrap; overflow hidden; text-overflow ellipsis;
 
 
 .grid-header-scroll-over
@@ -127,9 +93,9 @@ row-hover-bg = #E4EBF7;
 
 
 
-
-/*** DARK THEME ***/
+/*** DARK THEME ***********************************************************************************/
 // transparent-on-dark theme
+
 dark-text-color = #fff;
 dark-grid-border-color = none;
 dark-grid-inner-border-color = #999;
@@ -157,8 +123,7 @@ dark-row-hover-bg = rgba(#fff, 0.2);
 
 	.grid-row
 		.grid-cell
-			background-color dark-row-bg;
-			border-right dark-cell-border-color;
+			background-color dark-row-bg; border-right dark-cell-border-color;
 
 		&:nth-child(odd) .grid-cell
 			background-color dark-row-alt-bg;
@@ -194,3 +159,75 @@ dark-row-hover-bg = rgba(#fff, 0.2);
 
 	.grid-footer-table .grid-cell
 		background-color dark-header-bg;
+/*** DARK THEME ***********************************************************************************/
+
+
+
+
+
+
+/*** LIGHT THEME **********************************************************************************/
+light-text-color = #333;
+light-grid-border-color = #B3B3B4;
+light-grid-inner-border-color = #B3B3B4;
+light-cell-border-color = #ddd;
+light-header-bg = #DAE1ED;
+light-row-bg = #fff;
+light-row-alt-bg = #FAFCFD;
+light-row-hover-bg = #E4EBF7;
+
+.grid-light
+	border light-grid-border-color;
+
+	.grid-table
+		color light-text-color;
+
+	.grid-scroller
+		background-color light-row-bg;
+		border-top light-grid-inner-border-color;
+		border-bottom light-grid-inner-border-color;
+
+	.grid-cell
+	.grid-row .grid-cell
+		.row-action, a
+			color light-text-color;
+
+	.grid-row
+		.grid-cell
+			background-color light-row-bg; border-right light-cell-border-color;
+
+		&:nth-child(odd) .grid-cell
+			background-color light-row-alt-bg;
+
+		&.selected .grid-cell
+			background-color light-header-bg;
+
+		&:hover .grid-cell
+			background-color light-row-hover-bg;
+
+		.grid-no-items:hover
+			background-color light-row-bg;
+
+		.grid-no-items
+			color rgba(light-text-color, .7);
+
+	.grid-header-table
+		.grid-cell
+			background-color light-header-bg
+
+			.fa-sort
+			.fa-sort-asc
+			.fa-sort-desc
+				color rgba(light-text-color, 0.2);
+
+			&:hover .fa-sort
+				color rgba(light-text-color, 0.4);
+
+			&:hover, &
+				.fa-sort-asc
+				.fa-sort-desc
+					color light-text-color;
+
+	.grid-footer-table .grid-cell
+		background-color light-header-bg;
+/*** LIGHT THEME **********************************************************************************/

@@ -19,7 +19,7 @@ var data = {
 };
 
 var grid = new Grid({
-	theme: 'dark',
+	// theme: 'light',
 	target: document.getElementById('grid'),
 	sort: { by: 'date', order: 'desc' },
 	// dataSource: function (params) {
@@ -42,7 +42,7 @@ var grid = new Grid({
 		{ name: 'Date', field: 'date', width: 85 },
 		{ name: 'Category', field: 'category', width: '40%' },
 		{ name: 'Desc', field: 'desc' },
-		{ name: 'Amount', field: 'amount', width: 90,
+		{ name: 'Amount', field: 'amount', width: 100,
 			renderer: function (txt) { return '€' + txt; /*rec.amount*/ },
 			footer: function (data) { return '€' + data.totalAmount; }
 		}
