@@ -101,7 +101,7 @@ button:focus {
   cursor: default;
   min-height: 240px;
   font-size: 13px;
-  border: 1px solid color;
+  border: 1px solid #b3b3b4;
   margin-right: 10px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -116,7 +116,7 @@ button:focus {
 }
 .grid-table {
   width: 100%;
-  color: #fff;
+  color: #333;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -128,9 +128,9 @@ button:focus {
   left: 0;
   overflow: hidden;
   overflow-y: auto;
-  background-color: transparent;
-  border-top: 1px solid #999;
-  border-bottom: 1px solid #999;
+  background-color: #fff;
+  border-top: 1px solid #b3b3b4;
+  border-bottom: 1px solid #b3b3b4;
 }
 .grid-cell,
 .grid-row .grid-cell {
@@ -143,7 +143,7 @@ button:focus {
 .grid-row .grid-cell .row-action,
 .grid-cell a,
 .grid-row .grid-cell a {
-  color: #fff;
+  color: #333;
   text-decoration: underline;
 }
 .grid-cell .row-action:hover,
@@ -157,8 +157,8 @@ button:focus {
   padding-right: 24px;
 }
 .grid-row .grid-cell {
-  background-color: transparent;
-  border-right: 1px solid color;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
   transition: background-color 0.1s;
   padding-top: 8px;
   padding-bottom: 8px;
@@ -170,24 +170,24 @@ button:focus {
   border: none;
 }
 .grid-row:nth-child(odd) .grid-cell {
-  background-color: transparent;
+  background-color: #fafcfd;
 }
 .grid-row.selected .grid-cell {
-  background-color: transparent;
+  background-color: #dae1ed;
 }
 .grid-row:hover .grid-cell {
-  background-color: rgba(255,255,255,0.2);
+  background-color: #e4ebf7;
 }
 .grid-row.grid-row:first-child .grid-cell {
   border-top: none;
 }
 .grid-row .grid-no-items {
-  color: #999;
+  color: rgba(51,51,51,0.7);
   padding-left: 20px;
   border-width: 0 0 1px;
 }
 .grid-row .grid-no-items:hover {
-  background-color: transparent;
+  background-color: #fff;
 }
 .grid-row .action {
   padding: 0;
@@ -207,7 +207,7 @@ button:focus {
 }
 .grid-header-table .grid-cell {
   height: 30px;
-  background-color: transparent;
+  background-color: #dae1ed;
   font-weight: bold;
 }
 .grid-header-table .grid-cell .fa-sort,
@@ -215,18 +215,18 @@ button:focus {
 .grid-header-table .grid-cell .fa-sort-desc {
   float: right;
   margin: 9px 6px 0 0;
-  color: rgba(255,255,255,0.2);
+  color: rgba(51,51,51,0.2);
   font-size: 12px;
   transition: color 0.3s ease-out;
 }
 .grid-header-table .grid-cell:hover .fa-sort {
-  color: rgba(255,255,255,0.4);
+  color: rgba(51,51,51,0.4);
 }
 .grid-header-table .grid-cell:hover .fa-sort-asc,
 .grid-header-table .grid-cell .fa-sort-asc,
 .grid-header-table .grid-cell:hover .fa-sort-desc,
 .grid-header-table .grid-cell .fa-sort-desc {
-  color: #fff;
+  color: #333;
 }
 .grid-header-table .grid-cell .fa-sort-asc {
   margin-top: 11px;
@@ -253,7 +253,7 @@ button:focus {
 }
 .grid-footer-table .grid-cell {
   height: 24px;
-  background-color: transparent;
+  background-color: #dae1ed;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
@@ -263,4 +263,61 @@ button:focus {
   -webkit-box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
   -moz-box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
   box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+}
+/*** DARK THEME ***/
+.grid-dark {
+  border: none;
+}
+.grid-dark .grid-table {
+  color: #fff;
+}
+.grid-dark .grid-scroller {
+  background-color: transparent;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+.grid-dark .grid-cell .row-action,
+.grid-dark .grid-row .grid-cell .row-action,
+.grid-dark .grid-cell a,
+.grid-dark .grid-row .grid-cell a {
+  color: #fff;
+}
+.grid-dark .grid-row .grid-cell {
+  background-color: transparent;
+  border-right: none;
+}
+.grid-dark .grid-row:nth-child(odd) .grid-cell {
+  background-color: transparent;
+}
+.grid-dark .grid-row.selected .grid-cell {
+  background-color: transparent;
+}
+.grid-dark .grid-row:hover .grid-cell {
+  background-color: rgba(255,255,255,0.2);
+}
+.grid-dark .grid-row .grid-no-items:hover {
+  background-color: transparent;
+}
+.grid-dark .grid-row .grid-no-items {
+  color: rgba(255,255,255,0.7);
+}
+.grid-dark .grid-header-table .grid-cell {
+  background-color: transparent;
+}
+.grid-dark .grid-header-table .grid-cell .fa-sort,
+.grid-dark .grid-header-table .grid-cell .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-desc {
+  color: rgba(255,255,255,0.2);
+}
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort {
+  color: rgba(255,255,255,0.4);
+}
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort-desc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-desc {
+  color: #fff;
+}
+.grid-dark .grid-footer-table .grid-cell {
+  background-color: transparent;
 }

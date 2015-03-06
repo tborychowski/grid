@@ -6,29 +6,14 @@ cell-vpad = 8px;
 cell-hpad = 5px;
 
 // light theme
-// text-color = #333;
-// grid-border-color = #B3B3B4;
-// grid-inner-border-color = #B3B3B4;
-// cell-border-color = #ddd;
-
-// header-bg = #DAE1ED;
-// row-bg = #fff;
-// row-alt-bg = #FAFCFD;
-// row-hover-bg = #E4EBF7;
-
-
-// transparent-on-dark theme
-text-color = #fff;
-grid-border-color = transparent;
-grid-inner-border-color = #999;
-cell-border-color = transparent;
-
-header-bg = transparent;
-row-bg = transparent;
-row-alt-bg = transparent;
-row-hover-bg = rgba(#fff, 0.2);
-
-
+text-color = #333;
+grid-border-color = #B3B3B4;
+grid-inner-border-color = #B3B3B4;
+cell-border-color = #ddd;
+header-bg = #DAE1ED;
+row-bg = #fff;
+row-alt-bg = #FAFCFD;
+row-hover-bg = #E4EBF7;
 
 
 .grid
@@ -83,7 +68,7 @@ row-hover-bg = rgba(#fff, 0.2);
 		border-top none;
 
 	.grid-no-items
-		color #999; padding-left 20; border-width 0 0 1px;
+		color rgba(text-color, .7); padding-left 20; border-width 0 0 1px;
 		&:hover
 			background-color row-bg;
 
@@ -136,3 +121,76 @@ row-hover-bg = rgba(#fff, 0.2);
 
 .grid-header-scroll-over
 	shadow 0 4 3 -1 #000 .3, 0 1 0 #ddd;
+
+
+
+
+
+
+
+/*** DARK THEME ***/
+// transparent-on-dark theme
+dark-text-color = #fff;
+dark-grid-border-color = none;
+dark-grid-inner-border-color = #999;
+dark-cell-border-color = none;
+dark-header-bg = transparent;
+dark-row-bg = transparent;
+dark-row-alt-bg = transparent;
+dark-row-hover-bg = rgba(#fff, 0.2);
+
+.grid-dark
+	border dark-grid-border-color;
+
+	.grid-table
+		color dark-text-color;
+
+	.grid-scroller
+		background-color dark-row-bg;
+		border-top dark-grid-inner-border-color;
+		border-bottom dark-grid-inner-border-color;
+
+	.grid-cell
+	.grid-row .grid-cell
+		.row-action, a
+			color dark-text-color;
+
+	.grid-row
+		.grid-cell
+			background-color dark-row-bg;
+			border-right dark-cell-border-color;
+
+		&:nth-child(odd) .grid-cell
+			background-color dark-row-alt-bg;
+
+		&.selected .grid-cell
+			background-color dark-header-bg;
+
+		&:hover .grid-cell
+			background-color dark-row-hover-bg;
+
+		.grid-no-items:hover
+			background-color dark-row-bg;
+
+		.grid-no-items
+			color rgba(dark-text-color, .7);
+
+	.grid-header-table
+		.grid-cell
+			background-color dark-header-bg
+
+			.fa-sort
+			.fa-sort-asc
+			.fa-sort-desc
+				color rgba(dark-text-color, 0.2);
+
+			&:hover .fa-sort
+				color rgba(dark-text-color, 0.4);
+
+			&:hover, &
+				.fa-sort-asc
+				.fa-sort-desc
+					color dark-text-color;
+
+	.grid-footer-table .grid-cell
+		background-color dark-header-bg;

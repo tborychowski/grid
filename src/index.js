@@ -28,6 +28,7 @@ if (!Object.assign) Object.defineProperty(Object, 'assign', {
 class Grid {
 	constructor (cfg) {
 		let _defaults = {
+			theme: '',
 			target: document.body,
 			sort: { by: 'id', order: 'asc' },
 			dataSource: null,

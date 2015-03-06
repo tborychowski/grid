@@ -19,6 +19,7 @@ var data = {
 };
 
 var grid = new Grid({
+	theme: 'dark',
 	target: document.getElementById('grid'),
 	sort: { by: 'date', order: 'desc' },
 	dataSource: function (params) {

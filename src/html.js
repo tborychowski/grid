@@ -71,16 +71,19 @@ function populate () {
 
 
 function draw () {
+	var theme = (this.cfg.theme ? 'grid-' + this.cfg.theme : ''),
+		target = this.cfg.target;
+
 	this.isRendered = false;
-	this.cfg.target.innerHTML = frameTpl();
+	target.innerHTML = frameTpl({theme});
 	this.el = {
-		target: this.cfg.target,
-		scroller: this.cfg.target.querySelector('.grid-scroller'),
-		head: this.cfg.target.querySelector('.grid-header'),
-		body: this.cfg.target.querySelector('.grid-body'),
-		foot: this.cfg.target.querySelector('.grid-footer'),
-		headTable: this.cfg.target.querySelector('.grid-header-table'),
-		bodyTable: this.cfg.target.querySelector('.grid-body-table')
+		target: target,
+		scroller: target.querySelector('.grid-scroller'),
+		head: target.querySelector('.grid-header'),
+		body: target.querySelector('.grid-body'),
+		foot: target.querySelector('.grid-footer'),
+		headTable: target.querySelector('.grid-header-table'),
+		bodyTable: target.querySelector('.grid-body-table')
 	};
 	return this;
 }

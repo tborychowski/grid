@@ -57,6 +57,7 @@
 	};
 	
 	var grid = new Grid({
+		theme: "dark",
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
 		dataSource: function dataSource(params) {
@@ -172,6 +173,7 @@
 		_classCallCheck(this, Grid);
 	
 		var _defaults = {
+			theme: "",
 			target: document.body,
 			sort: { by: "id", order: "asc" },
 			dataSource: null,
@@ -505,16 +507,19 @@
 	}
 	
 	function draw() {
+		var theme = this.cfg.theme ? "grid-" + this.cfg.theme : "",
+		    target = this.cfg.target;
+	
 		this.isRendered = false;
-		this.cfg.target.innerHTML = frameTpl();
+		target.innerHTML = frameTpl({ theme: theme });
 		this.el = {
-			target: this.cfg.target,
-			scroller: this.cfg.target.querySelector(".grid-scroller"),
-			head: this.cfg.target.querySelector(".grid-header"),
-			body: this.cfg.target.querySelector(".grid-body"),
-			foot: this.cfg.target.querySelector(".grid-footer"),
-			headTable: this.cfg.target.querySelector(".grid-header-table"),
-			bodyTable: this.cfg.target.querySelector(".grid-body-table")
+			target: target,
+			scroller: target.querySelector(".grid-scroller"),
+			head: target.querySelector(".grid-header"),
+			body: target.querySelector(".grid-body"),
+			foot: target.querySelector(".grid-footer"),
+			headTable: target.querySelector(".grid-header-table"),
+			bodyTable: target.querySelector(".grid-body-table")
 		};
 		return this;
 	}
@@ -694,7 +699,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"grid\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("		<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("	<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("		<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("			<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("		</table>\r");t.b("\n" + i);t.b("	</div>\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("		<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }}, "<div class=\"grid\">\r\n\t<table class=\"grid-table grid-header-table\">\r\n\t\t<thead><tr class=\"grid-header\"></tr></thead>\r\n\t</table>\r\n\t<div class=\"grid-scroller\">\r\n\t\t<table class=\"grid-table grid-body-table\">\r\n\t\t\t<tbody class=\"grid-body\"></tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<table class=\"grid-table grid-footer-table\">\r\n\t\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n\t</table>\r\n</div>", H); return T.render.apply(T, arguments); };
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"grid ");t.b(t.v(t.f("theme",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("		<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("	<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("		<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("			<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("		</table>\r");t.b("\n" + i);t.b("	</div>\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("		<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }}, "<div class=\"grid {{theme}}\">\r\n\t<table class=\"grid-table grid-header-table\">\r\n\t\t<thead><tr class=\"grid-header\"></tr></thead>\r\n\t</table>\r\n\t<div class=\"grid-scroller\">\r\n\t\t<table class=\"grid-table grid-body-table\">\r\n\t\t\t<tbody class=\"grid-body\"></tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<table class=\"grid-table grid-footer-table\">\r\n\t\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n\t</table>\r\n</div>", H); return T.render.apply(T, arguments); };
 
 /***/ },
 /* 8 */
