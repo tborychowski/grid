@@ -6,8 +6,8 @@ function selectRow (row, unselectOther) {
 
 
 function unselectRows () {
-	var row, rows = this.el.body.querySelectorAll('.grid-row.selected');
-	for (row of rows) row.classList.remove('selected');
+	var rows = this.el.body.querySelectorAll('.grid-row.selected'), i = 0, l = rows.length
+	for (; i < l; i++) rows[i].classList.remove('selected');
 	return this;
 }
 
