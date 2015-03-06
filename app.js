@@ -22,8 +22,10 @@ var grid = new Grid({
 	theme: 'dark',
 	target: document.getElementById('grid'),
 	sort: { by: 'date', order: 'desc' },
-	dataSource: function (params) {
-		//return $.ajax('data.json', params);
+	// dataSource: function (params) {
+	// 	return $.ajax('data.json', params);
+	// },
+	dataSource: function () {
 		return data;
 	},
 	columns: [

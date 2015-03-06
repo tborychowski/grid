@@ -60,7 +60,7 @@
 		theme: "dark",
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
-		dataSource: function dataSource(params) {
+		dataSource: function dataSource() {
 			return data;
 		},
 		columns: [{ width: 50, icons: {
