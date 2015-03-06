@@ -76,8 +76,8 @@ gulp.task('fonts', function () {
 
 gulp.task('watch', function () {
 	live.listen();
-	gulp.watch('src/**/*.styl', ['styl']);
-	gulp.watch(['./*.js', 'src/**/*.js'], ['js', 'jshint']);
+	gulp.watch('**/*.styl', ['styl']);
+	gulp.watch(['**/*.js', 'src/**/*.js'], ['js', 'jshint']);
 });
 
 gulp.task('default', ['clean', 'js', 'styl', 'fonts', 'watch']);

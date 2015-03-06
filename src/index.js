@@ -4,26 +4,6 @@ import html from './html';
 import columns from './columns';
 import rows from './rows';
 
-
-class Grid {
-	constructor (cfg) {
-		let _defaults = {
-			target: document.body,
-			sort: { by: 'id', order: 'asc' },
-			dataSource: null,
-			items: { label: 'items', root: 'items', itemId: 'id' },
-			columns: []
-		};
-		this.cfg = Object.assign(_defaults, cfg);
-		this.processColumns().draw().initEvents();
-	}
-}
-
-Object.assign(Grid.prototype, data, events, html, columns, rows);
-export default Grid;
-
-
-
 /*** Object assign shim ***/
 if (!Object.assign) Object.defineProperty(Object, 'assign', {
 	enumerable: false,
@@ -43,3 +23,21 @@ if (!Object.assign) Object.defineProperty(Object, 'assign', {
 	}
 });
 
+
+
+class Grid {
+	constructor (cfg) {
+		let _defaults = {
+			target: document.body,
+			sort: { by: 'id', order: 'asc' },
+			dataSource: null,
+			items: { label: 'items', root: 'items', itemId: 'id' },
+			columns: []
+		};
+		this.cfg = Object.assign(_defaults, cfg);
+		this.processColumns().draw().initEvents();
+	}
+}
+
+Object.assign(Grid.prototype, data, events, html, columns, rows);
+export default Grid;

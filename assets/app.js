@@ -103,23 +103,6 @@
 	
 	var rows = _interopRequire(__webpack_require__(6));
 	
-	var Grid = function Grid(cfg) {
-		_classCallCheck(this, Grid);
-	
-		var _defaults = {
-			target: document.body,
-			sort: { by: "id", order: "asc" },
-			dataSource: null,
-			items: { label: "items", root: "items", itemId: "id" },
-			columns: []
-		};
-		this.cfg = Object.assign(_defaults, cfg);
-		this.processColumns().draw().initEvents();
-	};
-	
-	Object.assign(Grid.prototype, data, events, html, columns, rows);
-	module.exports = Grid;
-	
 	if (!Object.assign) Object.defineProperty(Object, "assign", {
 		enumerable: false,
 		configurable: true,
@@ -184,6 +167,23 @@
 			return to;
 		}
 	});
+	
+	var Grid = function Grid(cfg) {
+		_classCallCheck(this, Grid);
+	
+		var _defaults = {
+			target: document.body,
+			sort: { by: "id", order: "asc" },
+			dataSource: null,
+			items: { label: "items", root: "items", itemId: "id" },
+			columns: []
+		};
+		this.cfg = Object.assign(_defaults, cfg);
+		this.processColumns().draw().initEvents();
+	};
+	
+	Object.assign(Grid.prototype, data, events, html, columns, rows);
+	module.exports = Grid;
 
 /***/ },
 /* 2 */
@@ -332,7 +332,7 @@
 	var resizeThrottle;
 	function _onResize() {
 		if (resizeThrottle) window.clearTimeout(resizeThrottle);
-		resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 100);
+		resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 200);
 	}
 	
 	function initEvents() {
@@ -626,11 +626,13 @@
 	}
 	
 	function updateTableWidths() {
-		var headW = this.el.headTable.offsetWidth,
-		    bodyW = this.el.bodyTable.offsetWidth;
-	
-		this.el.bodyTable.style.width = bodyW === headW ? "100%" : headW + "px";
-	
+		var headW = undefined,
+		    bodyW = undefined,
+		    tabStyle = this.el.bodyTable.style;
+		tabStyle.width = "100%";
+		headW = this.el.headTable.offsetWidth;
+		bodyW = this.el.bodyTable.offsetWidth;
+		tabStyle.width = bodyW === headW ? "100%" : headW + "px";
 		return this;
 	}
 	
@@ -1519,5 +1521,5 @@
 
 
 /***/ }
-/******/ ]);
+/******/ ])
 //# sourceMappingURL=app.js.map

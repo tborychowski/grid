@@ -15,8 +15,7 @@ body {
   margin: 0;
   font: 400 15px/1 arial, sans-serif;
   cursor: default;
-  color: #333;
-  background: #eee;
+  background: #333;
 }
 * {
   box-sizing: border-box;
@@ -102,7 +101,7 @@ button:focus {
   cursor: default;
   min-height: 240px;
   font-size: 13px;
-  border: 1px solid #b3b3b4;
+  border: 1px solid color;
   margin-right: 10px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -117,7 +116,7 @@ button:focus {
 }
 .grid-table {
   width: 100%;
-  color: #333;
+  color: #fff;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -129,22 +128,22 @@ button:focus {
   left: 0;
   overflow: hidden;
   overflow-y: auto;
-  background: #fff;
-  border-top: 1px solid #b3b3b4;
-  border-bottom: 1px solid #b3b3b4;
+  background-color: transparent;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
 }
 .grid-cell,
 .grid-row .grid-cell {
-  padding: 0 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0 5px;
 }
 .grid-cell .row-action,
 .grid-row .grid-cell .row-action,
 .grid-cell a,
 .grid-row .grid-cell a {
-  color: #333;
+  color: #fff;
   text-decoration: underline;
 }
 .grid-cell .row-action:hover,
@@ -158,10 +157,11 @@ button:focus {
   padding-right: 24px;
 }
 .grid-row .grid-cell {
-  background: #fff;
-  padding: 5px;
+  background-color: transparent;
+  border-right: 1px solid color;
   transition: background-color 0.1s;
-  border-right: 1px solid #ddd;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .grid-row .grid-cell:last-child {
   border: none;
@@ -170,13 +170,13 @@ button:focus {
   border: none;
 }
 .grid-row:nth-child(odd) .grid-cell {
-  background-color: #fafcfd;
+  background-color: transparent;
 }
 .grid-row.selected .grid-cell {
-  background: #dae1ed;
+  background-color: transparent;
 }
 .grid-row:hover .grid-cell {
-  background: #e4ebf7;
+  background-color: rgba(255,255,255,0.2);
 }
 .grid-row.grid-row:first-child .grid-cell {
   border-top: none;
@@ -187,7 +187,7 @@ button:focus {
   border-width: 0 0 1px;
 }
 .grid-row .grid-no-items:hover {
-  background: #fff;
+  background-color: transparent;
 }
 .grid-row .action {
   padding: 0;
@@ -207,7 +207,7 @@ button:focus {
 }
 .grid-header-table .grid-cell {
   height: 30px;
-  background: #dae1ed;
+  background-color: transparent;
   font-weight: bold;
 }
 .grid-header-table .grid-cell .fa-sort,
@@ -215,18 +215,18 @@ button:focus {
 .grid-header-table .grid-cell .fa-sort-desc {
   float: right;
   margin: 9px 6px 0 0;
-  color: rgba(0,0,0,0.1);
+  color: rgba(255,255,255,0.2);
   font-size: 12px;
   transition: color 0.3s ease-out;
 }
 .grid-header-table .grid-cell:hover .fa-sort {
-  color: rgba(0,0,0,0.2);
+  color: rgba(255,255,255,0.4);
 }
 .grid-header-table .grid-cell:hover .fa-sort-asc,
 .grid-header-table .grid-cell .fa-sort-asc,
 .grid-header-table .grid-cell:hover .fa-sort-desc,
 .grid-header-table .grid-cell .fa-sort-desc {
-  color: #444;
+  color: #fff;
 }
 .grid-header-table .grid-cell .fa-sort-asc {
   margin-top: 11px;
@@ -253,7 +253,7 @@ button:focus {
 }
 .grid-footer-table .grid-cell {
   height: 24px;
-  background-color: #dae1ed;
+  background-color: transparent;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;

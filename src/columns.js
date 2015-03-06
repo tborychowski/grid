@@ -48,11 +48,11 @@ function updateColumnWidths () {
 }
 
 function updateTableWidths () {
-	let headW = this.el.headTable.offsetWidth,
-		bodyW = this.el.bodyTable.offsetWidth;
-
-	this.el.bodyTable.style.width = (bodyW === headW ? '100%' : headW + 'px');
-
+	let headW, bodyW, tabStyle = this.el.bodyTable.style;
+	tabStyle.width = '100%';
+	headW = this.el.headTable.offsetWidth;
+	bodyW = this.el.bodyTable.offsetWidth;
+	tabStyle.width = (bodyW === headW ? '100%' : headW + 'px');
 	return this;
 }
 

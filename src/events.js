@@ -40,7 +40,7 @@ function _onScroll () {
 var resizeThrottle;
 function _onResize () {
 	if (resizeThrottle) window.clearTimeout(resizeThrottle);
-	resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 100);
+	resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 200);
 }
 
 function initEvents () {
