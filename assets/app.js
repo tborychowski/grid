@@ -1503,5 +1503,5 @@
 
 
 /***/ }
-/******/ ])
+/******/ ]);
 //# sourceMappingURL=app.js.map
