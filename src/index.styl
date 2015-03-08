@@ -44,7 +44,7 @@ cell-hpad = 5px;
 		border-top none;
 
 	.grid-no-items
-		padding-left 20; border-width 0 0 1px;
+		padding 20% 0 0 0; border-width 0 0 1px; text-align center
 
 	.action
 		padding 0; text-align center;
@@ -135,11 +135,11 @@ dark-row-selected-bg = rgba(#fff, 0.3);
 		&:hover .grid-cell
 			background-color dark-row-hover-bg;
 
-		.grid-no-items:hover
-			background-color dark-row-bg;
-
 		.grid-no-items
-			color rgba(dark-text-color, .7);
+			color rgba(dark-text-color, .4);
+			&:hover
+				background-color dark-row-bg;
+
 
 	.grid-header-table
 		.grid-cell
@@ -207,11 +207,11 @@ light-row-selected-bg = #DAE1ED;
 		&:hover .grid-cell
 			background-color light-row-hover-bg;
 
-		.grid-no-items:hover
-			background-color light-row-bg;
-
 		.grid-no-items
-			color rgba(light-text-color, .7);
+			color rgba(light-text-color, .5);
+			&:hover
+				background-color light-row-bg;
+
 
 	.grid-header-table
 		.grid-cell

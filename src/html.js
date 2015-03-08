@@ -50,9 +50,16 @@ function _getBodyRow (item) {
 	return cells;
 }
 
+function _getEmptyRow () {
+	return '<tr class="grid-row">' +
+		'<td class="grid-no-items" colspan="' + this.cfg.columns.length + '">' +
+			'No entries</td><tr>';
+
+}
 
 
 function _getBody () {
+	if (!this.items.length) return _getEmptyRow.call(this);
 	return this.items
 		.map(item => rowTpl({ id: item.id, cells: _getBodyRow.call(this, item) }), this)
 		.join('');

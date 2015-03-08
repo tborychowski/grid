@@ -27,11 +27,11 @@ function _sortFn (sort, items) {
 }
 
 
-function load () {
+function load (params = {}) {
 	this.data = {};
 	this.items = [];
 	if (!this.cfg.dataSource) throw 'No data source';
-	var src = this.cfg.dataSource();
+	var src = this.cfg.dataSource(params);
 	if (src instanceof Promise) src.then(this.setData.bind(this));
 	else this.setData(src);
 	return this;
@@ -42,9 +42,9 @@ function setData (data) {
 	if (!data) throw 'No data!';
 	this.data = data;
 	if (this.cfg.items.root && data[this.cfg.items.root]) {
-		this.items = data[this.cfg.items.root];
+		this.items = data[this.cfg.items.root] || [];
 	}
-	else this.items = data;
+	else this.items = Array.isArray(data) ? data : [];
 	return this.sortItems();
 }
 

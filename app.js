@@ -25,8 +25,9 @@ var grid = new Grid({
 	// dataSource: function (params) {
 	// 	return $.ajax('data.json', params);
 	// },
-	dataSource: function () {
-		return data;
+	dataSource: function (params) {
+		console.log('params: ', params);
+		return {};//data;
 	},
 	columns: [
 		{ width: 50, icons: {
@@ -49,5 +50,5 @@ var grid = new Grid({
 	]
 });
 
-grid.load();
+grid.load({ a: 1, b: '2' });
 // grid.setData(data);

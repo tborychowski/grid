@@ -161,8 +161,9 @@ button:focus {
   border-top: none;
 }
 .grid-row .grid-no-items {
-  padding-left: 20px;
+  padding: 20% 0 0 0;
   border-width: 0 0 1px;
+  text-align: center;
 }
 .grid-row .action {
   padding: 0;
@@ -258,11 +259,11 @@ button:focus {
 .grid-dark .grid-row:hover .grid-cell {
   background-color: rgba(255,255,255,0.2);
 }
+.grid-dark .grid-row .grid-no-items {
+  color: rgba(255,255,255,0.4);
+}
 .grid-dark .grid-row .grid-no-items:hover {
   background-color: transparent;
-}
-.grid-dark .grid-row .grid-no-items {
-  color: rgba(255,255,255,0.7);
 }
 .grid-dark .grid-header-table .grid-cell {
   background-color: transparent;
@@ -316,11 +317,11 @@ button:focus {
 .grid-light .grid-row:hover .grid-cell {
   background-color: #e4ebf7;
 }
+.grid-light .grid-row .grid-no-items {
+  color: rgba(51,51,51,0.5);
+}
 .grid-light .grid-row .grid-no-items:hover {
   background-color: #fff;
-}
-.grid-light .grid-row .grid-no-items {
-  color: rgba(51,51,51,0.7);
 }
 .grid-light .grid-header-table .grid-cell {
   background-color: #dae1ed;

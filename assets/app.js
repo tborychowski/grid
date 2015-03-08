@@ -59,8 +59,9 @@
 	var grid = new Grid({
 		target: document.getElementById("grid"),
 		sort: { by: "date", order: "desc" },
-		dataSource: function dataSource() {
-			return data;
+		dataSource: function dataSource(params) {
+			console.log("params: ", params);
+			return {};
 		},
 		columns: [{ width: 50, icons: {
 				pencil: function pencil(item, row) {
@@ -81,7 +82,7 @@
 		}]
 	});
 	
-	grid.load();
+	grid.load({ a: 1, b: "2" });
 
 /***/ },
 /* 1 */
@@ -236,10 +237,12 @@
 	}
 	
 	function load() {
+		var params = arguments[0] === undefined ? {} : arguments[0];
+	
 		this.data = {};
 		this.items = [];
 		if (!this.cfg.dataSource) throw "No data source";
-		var src = this.cfg.dataSource();
+		var src = this.cfg.dataSource(params);
 		if (src instanceof Promise) src.then(this.setData.bind(this));else this.setData(src);
 		return this;
 	}
@@ -248,8 +251,8 @@
 		if (!data) throw "No data!";
 		this.data = data;
 		if (this.cfg.items.root && data[this.cfg.items.root]) {
-			this.items = data[this.cfg.items.root];
-		} else this.items = data;
+			this.items = data[this.cfg.items.root] || [];
+		} else this.items = Array.isArray(data) ? data : [];
 		return this.sortItems();
 	}
 	
@@ -487,10 +490,16 @@
 		return cells;
 	}
 	
+	function _getEmptyRow() {
+		return "<tr class=\"grid-row\">" + "<td class=\"grid-no-items\" colspan=\"" + this.cfg.columns.length + "\">" + "No entries</td><tr>";
+	}
+	
 	function _getBody() {
 		var _this = this;
 	
-		return this.items.map(function (item) {
+		if (!this.items.length) {
+			return _getEmptyRow.call(this);
+		}return this.items.map(function (item) {
 			return rowTpl({ id: item.id, cells: _getBodyRow.call(_this, item) });
 		}, this).join("");
 	}
