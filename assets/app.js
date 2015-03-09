@@ -333,10 +333,9 @@
 		this.el.headTable.classList.toggle("grid-header-scroll-over", scrld);
 	}
 	
-	var resizeThrottle;
 	function _onResize() {
-		if (resizeThrottle) window.clearTimeout(resizeThrottle);
-		resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 200);
+		if (this.resizeThrottle) window.clearTimeout(this.resizeThrottle);
+		this.resizeThrottle = setTimeout(this.updateTableWidths.bind(this), 200);
 	}
 	
 	function initEvents() {
