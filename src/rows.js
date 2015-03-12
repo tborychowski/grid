@@ -6,7 +6,7 @@ function selectRow (row, unselectOther) {
 
 
 function unselectRows () {
-	var rows = this.el.body.querySelectorAll('.grid-row.selected'), i = 0, l = rows.length
+	var rows = this.el.body.querySelectorAll('.grid-row.selected'), i = 0, l = rows.length;
 	for (; i < l; i++) rows[i].classList.remove('selected');
 	return this;
 }
