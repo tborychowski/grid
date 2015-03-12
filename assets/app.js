@@ -506,10 +506,10 @@
 	function populate() {
 		if (!this.isRendered) {
 			this.el.head.innerHTML = _getHeaderRow.call(this);
-			this.el.foot.innerHTML = _getFooterRow.call(this);
 			this.isRendered = true;
 		}
 		this.el.body.innerHTML = _getBody.call(this);
+		this.el.foot.innerHTML = _getFooterRow.call(this);
 		return this.updateColumnWidths();
 	}
 	
