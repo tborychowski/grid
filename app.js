@@ -1,4 +1,5 @@
-import Grid from 'src';
+// import Grid from 'assets/grid.js';
+var Grid = require('./assets/grid');
 
 var data = {
 	total: 10,
@@ -50,5 +51,5 @@ var grid = new Grid({
 	]
 });
 
-grid.load({ a: 1, b: '2' });
-// grid.setData(data);
+// grid.load({ a: 1, b: '2' });
+grid.setData(data);

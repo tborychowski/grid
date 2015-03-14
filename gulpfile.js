@@ -12,11 +12,17 @@ var gulp = require('gulp'),
 
 var wpConfig = {
 		debug: false,
-		devtool: '#source-map',
+		// devtool: '#source-map',
+		entry: {
+			app: './app.js',
+			grid: './src/index.js'
+		},
 		output: {
 			publicPath: './assets/',
-			filename: 'app.js',
-			sourceMapFilename: 'app.js.map'
+			library: 'grid',
+			libraryTarget: 'umd',
+			filename: '[name].js'
+		// 	sourceMapFilename: 'grid.js.map'
 		},
 		resolve: {
 			root: __dirname,
@@ -39,12 +45,12 @@ var wpConfig = {
 		if (err.length) notify.onError('Error: ' + err[0].message);
 	};
 
-gulp.task('clean', function (cb) { del(['assets/**/*.{css,js,map}'], cb); });
+gulp.task('clean', function (cb) { del(['assets/*.{css,js,map}'], cb); });
 
 gulp.task('js', function () {
-	return gulp.src(['app.js'])
+	return gulp.src('./app.js')
 		.pipe(webpack(wpConfig, null, wpErr))
-		.pipe(gulp.dest('assets'))
+		.pipe(gulp.dest('assets/'))
 		.pipe(live());
 });
 
@@ -64,7 +70,6 @@ gulp.task('styl', function () {
 		.pipe(gulp.dest('assets'))
 		.pipe(live());
 });
-
 
 gulp.task('watch', function () {
 	live.listen();
