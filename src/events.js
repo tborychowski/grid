@@ -59,7 +59,10 @@ function initFilterEvents () {
 		self.populate.call(self, this.value);
 	});
 	this.el.filterInput.addEventListener('keyup', function (e) {
-		if (e.keyCode === 27) self.toggleSearchBox.call(self);
+		if (e.keyCode === 27) {
+			self.populate.call(self);
+			self.toggleSearchBox.call(self);
+		}
 	});
 }
 
