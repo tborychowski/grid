@@ -54,9 +54,9 @@ function sortItems (sortBy, order) {
 	if (sortBy) this.cfg.sort.by = sortBy;
 	if (order) this.cfg.sort.order = order;
 
-	if (this.items.length) {
-		this.items.sort(_sortFn({ by: 'id', order: 'desc'}, this.items));
-		if (sortBy) this.items.sort(_sortFn(this.cfg.sort, this.items));
+	if (this.originalItems.length) {
+		this.originalItems.sort(_sortFn({ by: 'id', order: 'desc'}, this.originalItems));
+		if (sortBy) this.originalItems.sort(_sortFn(this.cfg.sort, this.originalItems));
 	}
 	this.populate();
 
@@ -80,13 +80,13 @@ function fuzzy (haystack, s) {
     s = ('' + s).toLowerCase();
     for (; l = s[i++] ;) if (!~(n = hay.indexOf(l, n + 1))) return false;
     return true;
-};
+}
 
 
 function filterData () {
 	if (!this.filter) {
 		this.items = Object.assign([], this.originalItems);
-		return
+		return;
 	}
 	this.items = [];
 	for (let item of this.originalItems) {

@@ -80,12 +80,12 @@ function _getBody () {
 function populate (filter) {
 	if (!this.isRendered) {
 		this.el.head.innerHTML = _getHeaderRow.call(this);
-		this.isRendered = true;
 		if (this.hasFilter) {
 			this.el.filterBox = this.el.head.querySelector('.filter-box');
 			this.el.filterInput = this.el.head.querySelector('.filter-input');
 			this.initFilterEvents();
 		}
+		this.isRendered = true;
 	}
 	this.filter = filter;
 	this.filterData();
