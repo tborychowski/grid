@@ -11,7 +11,7 @@ function _closest (el, selector) {
 
 
 function _onClick (e) {
-	var target = e.target;
+	var target = e.target, action = '';
 
 	if (_closest(target, 'td.sort')) {
 		target = _closest(target, 'td.sort');
@@ -20,17 +20,21 @@ function _onClick (e) {
 		this.sortItems(target.dataset.sortby, isDesc ? 'asc' : 'desc');
 	}
 
+	else if (_closest(target, '.grid-header-cell.action')) {
+		target = _closest(target, '.row-action');
+		if (target.dataset) action = target.dataset.action;
+		if (action === 'search') this.toggleSearchBox();
+	}
 	else if (_closest(target, '.row-action')) {
 		target = _closest(target, '.row-action');
 		e.preventDefault();
 		let row = _closest(target, '.grid-row'),
-			action = target.dataset.action,
-			id = +row.dataset.id,
-			item = this.getItemById(id);
-		this.iconHandlers[action].call(this, item, row);
+			id = row && +row.dataset.id,
+			item = row && this.getItemById(id);
+		if (target.dataset) action = target.dataset.action;
+		this.iconHandlers[action].call(this, item || null, row || null);
 	}
 }
-
 
 function _onScroll () {
 	var scrld = this.el.scroller.scrollTop > 0;
@@ -48,7 +52,19 @@ function initEvents () {
 	window.addEventListener('resize', _onResize.bind(this));
 }
 
+function initFilterEvents () {
+	if (!this.hasFilter) return;
+	var self = this;
+	this.el.filterInput.addEventListener('input', function () {
+		self.populate.call(self, this.value);
+	});
+	this.el.filterInput.addEventListener('keyup', function (e) {
+		if (e.keyCode === 27) self.toggleSearchBox.call(self);
+	});
+}
+
 
 export default {
-	initEvents
+	initEvents,
+	initFilterEvents
 };

@@ -114,6 +114,41 @@ button:focus {
   border-collapse: collapse;
   table-layout: fixed;
 }
+.grid-table .row-action {
+  width: 20px;
+  font-size: 14px;
+  line-height: 1;
+  padding: 3px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.grid-table .row-action .fa {
+  transition: color 0.3s ease-out;
+}
+.grid-table .filter-box {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  width: 0;
+  z-index: 99;
+  overflow: hidden;
+  opacity: 0;
+  transition: 0.2s ease-out;
+}
+.grid-table .filter-box.visible {
+  width: 400px;
+  opacity: 1;
+}
+.grid-table .filter-input {
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  padding: 3px 5px;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: normal;
+  border: none;
+}
 .grid-scroller {
   position: absolute;
   top: 30px;
@@ -169,14 +204,6 @@ button:focus {
   padding: 0;
   text-align: center;
 }
-.grid-row .action .row-action {
-  width: 20px;
-  font-size: 14px;
-  padding: 3px 4px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
 .grid-header-table {
   position: relative;
   z-index: 10;
@@ -184,6 +211,10 @@ button:focus {
 .grid-header-table .grid-cell {
   height: 30px;
   font-weight: bold;
+}
+.grid-header-table .grid-cell.action,
+.grid-header-table .grid-cell.action .grid-header-cell-inner {
+  overflow: visible;
 }
 .grid-header-table .grid-cell .fa-sort,
 .grid-header-table .grid-cell .fa-sort-asc,
@@ -205,6 +236,7 @@ button:focus {
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 30px;
+  position: relative;
 }
 .grid-header-table .sort-asc .grid-header-cell-inner,
 .grid-header-table .sort-desc .grid-header-cell-inner {
@@ -265,6 +297,15 @@ button:focus {
 .grid-dark .grid-row .grid-no-items:hover {
   background-color: transparent;
 }
+.grid-dark .row-action .fa {
+  color: rgba(255,255,255,0.2);
+}
+.grid-dark .row-action:hover .fa {
+  color: rgba(255,255,255,0.5);
+}
+.grid-dark .row-action:active .fa {
+  color: rgba(255,255,255,0.1);
+}
 .grid-dark .grid-header-table .grid-cell {
   background-color: transparent;
 }
@@ -274,7 +315,7 @@ button:focus {
   color: rgba(255,255,255,0.2);
 }
 .grid-dark .grid-header-table .grid-cell:hover .fa-sort {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.5);
 }
 .grid-dark .grid-header-table .grid-cell:hover .fa-sort-asc,
 .grid-dark .grid-header-table .grid-cell .fa-sort-asc,
@@ -322,6 +363,15 @@ button:focus {
 }
 .grid-light .grid-row .grid-no-items:hover {
   background-color: #fff;
+}
+.grid-light .row-action .fa {
+  color: rgba(51,51,51,0.2);
+}
+.grid-light .row-action:hover .fa {
+  color: rgba(51,51,51,0.5);
+}
+.grid-light .row-action:active .fa {
+  color: rgba(51,51,51,0.1);
 }
 .grid-light .grid-header-table .grid-cell {
   background-color: #dae1ed;

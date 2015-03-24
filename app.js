@@ -1,5 +1,5 @@
-// import Grid from 'assets/grid.js';
-var Grid = require('./assets/grid');
+import Grid from 'src';
+// var Grid = require('./assets/grid');
 
 var data = {
 	total: 10,
@@ -19,7 +19,7 @@ var data = {
 	]
 };
 
-var grid = new Grid({
+var grid = window.GRID = new Grid({
 	// theme: 'light',
 	target: document.getElementById('grid'),
 	sort: { by: 'date', order: 'desc' },
@@ -32,13 +32,19 @@ var grid = new Grid({
 	},
 	columns: [
 		{ width: 50, icons: {
-			pencil: function (item, row) {
-				this.selectRow(row, true);
-				console.log(item, row);
+			pencil: {
+				title: 'Edit',
+				cb: function (item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				}
 			},
-			'trash-o': function (item, row) {
-				this.selectRow(row, true);
-				console.log(item, row);
+			'trash-o': {
+				title: 'Delete',
+				cb: function (item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				}
 			}
 		}},
 		{ name: 'Date', field: 'date', width: 85 },
@@ -46,7 +52,9 @@ var grid = new Grid({
 		{ name: 'Desc', field: 'desc' },
 		{ name: 'Amount', field: 'amount', width: 100,
 			renderer: function (txt) { return '€' + txt; /*rec.amount*/ },
-			footer: function (data) { return '€' + data.totalAmount; }
+			footer: function (data) {
+				return '€' + this.items.reduce(function(pre, cur) { return pre + cur.amount; }, 0);
+			}
 		}
 	]
 });

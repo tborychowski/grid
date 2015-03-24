@@ -6,7 +6,12 @@ function processColumns () {
 		col.sortable = (col.sortable !== false && !col.icons);
 
 		if (col.icons) {														// column icons
-			for (let icon in col.icons) actions[icon] = col.icons[icon];
+			for (let icon in col.icons) {
+				let cb = function () {};
+				if (typeof col.icons[icon] === 'function') cb = col.icons[icon];
+				else if (typeof col.icons[icon].cb === 'function') cb = col.icons[icon].cb;
+				actions[icon] = cb;
+			}
 		}
 		if (typeof col.width === 'string' && col.width.indexOf('%') === -1) {	// column widths
 			col.width = parseInt(col.width, 10);

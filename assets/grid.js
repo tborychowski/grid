@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "./assets/";
-
+/******/ 	__webpack_require__.p = "";
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -60,15 +60,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-	var data = _interopRequire(__webpack_require__(2));
+	var data = _interopRequire(__webpack_require__(1));
 
-	var events = _interopRequire(__webpack_require__(3));
+	var events = _interopRequire(__webpack_require__(2));
 
-	var html = _interopRequire(__webpack_require__(4));
+	var html = _interopRequire(__webpack_require__(3));
 
-	var columns = _interopRequire(__webpack_require__(5));
+	var columns = _interopRequire(__webpack_require__(4));
 
-	var rows = _interopRequire(__webpack_require__(6));
+	var rows = _interopRequire(__webpack_require__(5));
 
 	if (!Object.assign) Object.defineProperty(Object, "assign", {
 		enumerable: false,
@@ -154,8 +154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Grid;
 
 /***/ },
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -220,6 +219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		if (this.cfg.items.root && data[this.cfg.items.root]) {
 			this.items = data[this.cfg.items.root] || [];
 		} else this.items = Array.isArray(data) ? data : [];
+		this.originalItems = Object.assign([], this.items);
 		return this.sortItems();
 	}
 
@@ -249,15 +249,64 @@ return /******/ (function(modules) { // webpackBootstrap
 		})[0];
 	}
 
+	function fuzzy(haystack, s) {
+		var hay = ("" + haystack).toLowerCase(),
+		    i = 0,
+		    n = -1,
+		    l;
+		s = ("" + s).toLowerCase();
+		for (; l = s[i++];) if (! ~(n = hay.indexOf(l, n + 1))) {
+			return false;
+		}return true;
+	};
+
+	function filterData() {
+		if (!this.filter) {
+			this.items = Object.assign([], this.originalItems);
+			return;
+		}
+		this.items = [];
+		var _iteratorNormalCompletion = true;
+		var _didIteratorError = false;
+		var _iteratorError = undefined;
+
+		try {
+			for (var _iterator = this.originalItems[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var item = _step.value;
+
+				for (var f in item) {
+					if (fuzzy(item[f], this.filter)) {
+						this.items.push(item);
+						break;
+					}
+				}
+			}
+		} catch (err) {
+			_didIteratorError = true;
+			_iteratorError = err;
+		} finally {
+			try {
+				if (!_iteratorNormalCompletion && _iterator["return"]) {
+					_iterator["return"]();
+				}
+			} finally {
+				if (_didIteratorError) {
+					throw _iteratorError;
+				}
+			}
+		}
+	}
+
 	module.exports = {
 		load: load,
 		setData: setData,
 		sortItems: sortItems,
-		getItemById: getItemById
+		getItemById: getItemById,
+		filterData: filterData
 	};
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -277,21 +326,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function _onClick(e) {
-		var target = e.target;
+		var target = e.target,
+		    action = "";
 
 		if (_closest(target, "td.sort")) {
 			target = _closest(target, "td.sort");
 			var icon = target.querySelector(".fa-sort");
 			var isDesc = icon.classList.contains("fa-sort-desc");
 			this.sortItems(target.dataset.sortby, isDesc ? "asc" : "desc");
+		} else if (_closest(target, ".grid-header-cell.action")) {
+			target = _closest(target, ".row-action");
+			if (target.dataset) action = target.dataset.action;
+			if (action === "search") this.toggleSearchBox();
 		} else if (_closest(target, ".row-action")) {
 			target = _closest(target, ".row-action");
 			e.preventDefault();
 			var row = _closest(target, ".grid-row"),
-			    action = target.dataset.action,
-			    id = +row.dataset.id,
-			    item = this.getItemById(id);
-			this.iconHandlers[action].call(this, item, row);
+			    id = row && +row.dataset.id,
+			    item = row && this.getItemById(id);
+			if (target.dataset) action = target.dataset.action;
+			this.iconHandlers[action].call(this, item || null, row || null);
 		}
 	}
 
@@ -311,49 +365,41 @@ return /******/ (function(modules) { // webpackBootstrap
 		window.addEventListener("resize", _onResize.bind(this));
 	}
 
+	function initFilterEvents() {
+		if (!this.hasFilter) {
+			return;
+		}var self = this;
+		this.el.filterInput.addEventListener("input", function () {
+			self.populate.call(self, this.value);
+		});
+		this.el.filterInput.addEventListener("keyup", function (e) {
+			if (e.keyCode === 27) self.toggleSearchBox.call(self);
+		});
+	}
+
 	module.exports = {
-		initEvents: initEvents
+		initEvents: initEvents,
+		initFilterEvents: initFilterEvents
 	};
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var frameTpl = __webpack_require__(7);
-	var rowTpl = __webpack_require__(8);
-	var headerCellTpl = __webpack_require__(9);
-	var footerCellTpl = __webpack_require__(10);
+	var frameTpl = __webpack_require__(6);
+	var rowTpl = __webpack_require__(7);
+	var headerCellTpl = __webpack_require__(8);
+	var footerCellTpl = __webpack_require__(9);
 
 	function _getRowIcons(icons) {
 		var iconHtml = "",
 		    icon;
-		var _iteratorNormalCompletion = true;
-		var _didIteratorError = false;
-		var _iteratorError = undefined;
-
-		try {
-			for (var _iterator = Object.keys(icons)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-				icon = _step.value;
-
-				iconHtml += "<a href=\"#\" class=\"row-action\" data-action=\"" + icon + "\"><i class=\"fa fa-" + icon + "\"></i></a>";
-			}
-		} catch (err) {
-			_didIteratorError = true;
-			_iteratorError = err;
-		} finally {
-			try {
-				if (!_iteratorNormalCompletion && _iterator["return"]) {
-					_iterator["return"]();
-				}
-			} finally {
-				if (_didIteratorError) {
-					throw _iteratorError;
-				}
-			}
+		for (icon in icons) {
+			var title = icons[icon] && icons[icon].title || icon;
+			iconHtml += "<a href=\"#\" class=\"row-action\" " + "data-action=\"" + icon + "\" " + "title=\"" + title + "\" " + "><i class=\"fa fa-" + icon + "\"></i></a>";
 		}
-
 		return iconHtml;
 	}
 
@@ -368,7 +414,13 @@ return /******/ (function(modules) { // webpackBootstrap
 				var col = _step.value;
 
 				var sortCls = col.sortable ? "sort" : "";
-				col.headerCls = ["grid-cell", "grid-header-cell", col.field, sortCls].join(" ");
+				col.headerCls = ["grid-cell", "grid-header-cell", col.field, sortCls];
+				if (!col.name && col.icons) {
+					col.headerCls.push("action");
+					col.name = "<a href=\"#\" class=\"row-action\" data-action=\"search\" " + "title=\"Search\"><i class=\"fa fa-search\"></i></a>" + "<div class=\"filter-box\"><input class=\"filter-input\" type=\"text\"></div>";
+					this.hasFilter = true;
+				}
+				col.headerCls = col.headerCls.join(" ");
 				cells.push(headerCellTpl(col));
 			}
 		} catch (err) {
@@ -470,11 +522,18 @@ return /******/ (function(modules) { // webpackBootstrap
 		}, this).join("");
 	}
 
-	function populate() {
+	function populate(filter) {
 		if (!this.isRendered) {
 			this.el.head.innerHTML = _getHeaderRow.call(this);
 			this.isRendered = true;
+			if (this.hasFilter) {
+				this.el.filterBox = this.el.head.querySelector(".filter-box");
+				this.el.filterInput = this.el.head.querySelector(".filter-input");
+				this.initFilterEvents();
+			}
 		}
+		this.filter = filter;
+		this.filterData();
 		this.el.body.innerHTML = _getBody.call(this);
 		this.el.foot.innerHTML = _getFooterRow.call(this);
 		return this.updateColumnWidths();
@@ -498,13 +557,23 @@ return /******/ (function(modules) { // webpackBootstrap
 		return this;
 	}
 
+	function toggleSearchBox() {
+		if (!this.hasFilter) {
+			return;
+		}this.el.filterBox.classList.toggle("visible");
+		if (this.el.filterBox.classList.contains("visible")) {
+			this.el.filterInput.focus();
+		}
+	}
+
 	module.exports = {
 		populate: populate,
-		draw: draw
+		draw: draw,
+		toggleSearchBox: toggleSearchBox
 	};
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -526,7 +595,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				if (col.icons) {
 					for (var icon in col.icons) {
-						actions[icon] = col.icons[icon];
+						var cb = function cb() {};
+						if (typeof col.icons[icon] === "function") cb = col.icons[icon];else if (typeof col.icons[icon].cb === "function") cb = col.icons[icon].cb;
+						actions[icon] = cb;
 					}
 				}
 				if (typeof col.width === "string" && col.width.indexOf("%") === -1) {
@@ -622,7 +693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -647,35 +718,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var H = __webpack_require__(10);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"grid ");t.b(t.v(t.f("theme",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("		<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("	<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("		<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("			<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("		</table>\r");t.b("\n" + i);t.b("	</div>\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("		<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }}, "<div class=\"grid {{theme}}\">\r\n\t<table class=\"grid-table grid-header-table\">\r\n\t\t<thead><tr class=\"grid-header\"></tr></thead>\r\n\t</table>\r\n\t<div class=\"grid-scroller\">\r\n\t\t<table class=\"grid-table grid-body-table\">\r\n\t\t\t<tbody class=\"grid-body\"></tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<table class=\"grid-table grid-footer-table\">\r\n\t\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n\t</table>\r\n</div>", H); return T.render.apply(T, arguments); };
+
+/***/ },
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"grid ");t.b(t.v(t.f("theme",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-header-table\">\r");t.b("\n" + i);t.b("		<thead><tr class=\"grid-header\"></tr></thead>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("	<div class=\"grid-scroller\">\r");t.b("\n" + i);t.b("		<table class=\"grid-table grid-body-table\">\r");t.b("\n" + i);t.b("			<tbody class=\"grid-body\"></tbody>\r");t.b("\n" + i);t.b("		</table>\r");t.b("\n" + i);t.b("	</div>\r");t.b("\n" + i);t.b("	<table class=\"grid-table grid-footer-table\">\r");t.b("\n" + i);t.b("		<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r");t.b("\n" + i);t.b("	</table>\r");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }}, "<div class=\"grid {{theme}}\">\r\n\t<table class=\"grid-table grid-header-table\">\r\n\t\t<thead><tr class=\"grid-header\"></tr></thead>\r\n\t</table>\r\n\t<div class=\"grid-scroller\">\r\n\t\t<table class=\"grid-table grid-body-table\">\r\n\t\t\t<tbody class=\"grid-body\"></tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<table class=\"grid-table grid-footer-table\">\r\n\t\t<tfoot><tr class=\"grid-footer\"></tr></tfoot>\r\n\t</table>\r\n</div>", H);return T.render.apply(T, arguments); };
+	var H = __webpack_require__(10);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<tr data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\" class=\"grid-row\">\r");t.b("\n" + i);if(t.s(t.f("cells",c,p,1),c,p,0,51,140,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		<td class=\"grid-cell ");t.b(t.v(t.f("cls",c,p,0)));t.b("\"><span class=\"grid-cell-inner\">");t.b(t.t(t.f("text",c,p,0)));t.b("</span></td>\r");t.b("\n" + i);});c.pop();}t.b("</tr>");return t.fl(); },partials: {}, subs: {  }}, "<tr data-id=\"{{id}}\" class=\"grid-row\">\r\n\t{{#cells}}\r\n\t\t<td class=\"grid-cell {{cls}}\"><span class=\"grid-cell-inner\">{{{text}}}</span></td>\r\n\t{{/cells}}\r\n</tr>", H); return T.render.apply(T, arguments); };
 
 /***/ },
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<tr data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\" class=\"grid-row\">\r");t.b("\n" + i);if(t.s(t.f("cells",c,p,1),c,p,0,51,140,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		<td class=\"grid-cell ");t.b(t.v(t.f("cls",c,p,0)));t.b("\"><span class=\"grid-cell-inner\">");t.b(t.t(t.f("text",c,p,0)));t.b("</span></td>\r");t.b("\n" + i);});c.pop();}t.b("</tr>");return t.fl(); },partials: {}, subs: {  }}, "<tr data-id=\"{{id}}\" class=\"grid-row\">\r\n\t{{#cells}}\r\n\t\t<td class=\"grid-cell {{cls}}\"><span class=\"grid-cell-inner\">{{{text}}}</span></td>\r\n\t{{/cells}}\r\n</tr>", H);return T.render.apply(T, arguments); };
+	var H = __webpack_require__(10);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("headerCls",c,p,0)));t.b("\" data-sortby=\"");t.b(t.v(t.f("field",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	");if(t.s(t.f("sortable",c,p,1),c,p,0,66,92,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-sort\"></i>");});c.pop();}t.b("\r");t.b("\n" + i);t.b("	<span class=\"grid-header-cell-inner\">");t.b(t.t(t.f("name",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{headerCls}}\" data-sortby=\"{{field}}\">\r\n\t{{#sortable}}<i class=\"fa fa-sort\"></i>{{/sortable}}\r\n\t<span class=\"grid-header-cell-inner\">{{{name}}}</span>\r\n</td>", H); return T.render.apply(T, arguments); };
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("headerCls",c,p,0)));t.b("\" data-sortby=\"");t.b(t.v(t.f("field",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	");if(t.s(t.f("sortable",c,p,1),c,p,0,66,92,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-sort\"></i>");});c.pop();}t.b("\r");t.b("\n" + i);t.b("	<span class=\"grid-header-cell-inner\">");t.b(t.v(t.f("name",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{headerCls}}\" data-sortby=\"{{field}}\">\r\n\t{{#sortable}}<i class=\"fa fa-sort\"></i>{{/sortable}}\r\n\t<span class=\"grid-header-cell-inner\">{{name}}</span>\r\n</td>", H);return T.render.apply(T, arguments); };
+	var H = __webpack_require__(10);
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("footerCls",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<span class=\"grid-footer-cell-inner\">");t.b(t.v(t.f("footerText",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{footerCls}}\">\r\n\t<span class=\"grid-footer-cell-inner\">{{footerText}}</span>\r\n</td>", H); return T.render.apply(T, arguments); };
 
 /***/ },
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("footerCls",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<span class=\"grid-footer-cell-inner\">");t.b(t.v(t.f("footerText",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{footerCls}}\">\r\n\t<span class=\"grid-footer-cell-inner\">{{footerText}}</span>\r\n</td>", H);return T.render.apply(T, arguments); };
-
-/***/ },
-/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -695,14 +766,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// This file is for use with Node.js. See dist/ for browser files.
 
-	var Hogan = __webpack_require__(12);
-	Hogan.Template = __webpack_require__(13).Template;
+	var Hogan = __webpack_require__(11);
+	Hogan.Template = __webpack_require__(12).Template;
 	Hogan.template = Hogan.Template;
 	module.exports = Hogan;
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -1131,7 +1202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -1480,4 +1551,3 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
-;

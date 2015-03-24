@@ -13,6 +13,20 @@ cell-hpad = 5px;
 .grid-table
 	width 100%; border-collapse collapse; table-layout fixed;
 
+	.row-action
+		width 20; font 14/1; padding 3 4; text-align center; u 0; show 1;
+		.fa
+			transition color .3s ease-out;
+
+	.filter-box
+		pos 0; left 50; width 0; z 99; overflow hidden; opacity 0;
+		transition .2s ease-out;
+		&.visible
+			width 400; opacity 1;
+
+	.filter-input
+		width 100%; bg rgba(#fff, 0.95); padding 3 5; font 14/1; b 0; border none;
+
 .grid-scroller
 	pos header-height 0 footer-height 0; overflow hidden; overflow-y auto;
 
@@ -48,8 +62,6 @@ cell-hpad = 5px;
 
 	.action
 		padding 0; text-align center;
-		.row-action
-			width 20; font 14; padding 3 4; text-align center; u 0; show 1; margin
 
 
 
@@ -58,6 +70,10 @@ cell-hpad = 5px;
 
 	.grid-cell
 		height header-height; b 1;
+
+		&.action
+			&, .grid-header-cell-inner
+				overflow visible;
 
 		.fa-sort
 		.fa-sort-asc
@@ -73,6 +89,7 @@ cell-hpad = 5px;
 
 	.grid-header-cell-inner
 		show 2; overflow hidden; text-overflow ellipsis; white-space nowrap; line-height header-height;
+		position relative;
 
 	.sort-asc
 	.sort-desc
@@ -140,6 +157,13 @@ dark-row-selected-bg = rgba(#fff, 0.3);
 			&:hover
 				background-color dark-row-bg;
 
+	.row-action
+		.fa
+			color rgba(dark-text-color, 0.2);
+		&:hover .fa
+			color rgba(dark-text-color, 0.5);
+		&:active .fa
+			color rgba(dark-text-color, 0.1);
 
 	.grid-header-table
 		.grid-cell
@@ -151,7 +175,7 @@ dark-row-selected-bg = rgba(#fff, 0.3);
 				color rgba(dark-text-color, 0.2);
 
 			&:hover .fa-sort
-				color rgba(dark-text-color, 0.4);
+				color rgba(dark-text-color, 0.5);
 
 			&:hover, &
 				.fa-sort-asc
@@ -212,6 +236,13 @@ light-row-selected-bg = #DAE1ED;
 			&:hover
 				background-color light-row-bg;
 
+	.row-action
+		.fa
+			color rgba(light-text-color, 0.2);
+		&:hover .fa
+			color rgba(light-text-color, 0.5);
+		&:active .fa
+			color rgba(light-text-color, 0.1);
 
 	.grid-header-table
 		.grid-cell

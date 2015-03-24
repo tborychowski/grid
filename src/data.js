@@ -45,6 +45,7 @@ function setData (data) {
 		this.items = data[this.cfg.items.root] || [];
 	}
 	else this.items = Array.isArray(data) ? data : [];
+	this.originalItems = Object.assign([], this.items);
 	return this.sortItems();
 }
 
@@ -74,10 +75,34 @@ function getItemById (id) {
 	return this.items.filter(item => item.id.toString() === id)[0];
 }
 
+function fuzzy (haystack, s) {
+    var hay = ('' + haystack).toLowerCase(), i = 0, n = -1, l;
+    s = ('' + s).toLowerCase();
+    for (; l = s[i++] ;) if (!~(n = hay.indexOf(l, n + 1))) return false;
+    return true;
+};
+
+
+function filterData () {
+	if (!this.filter) {
+		this.items = Object.assign([], this.originalItems);
+		return
+	}
+	this.items = [];
+	for (let item of this.originalItems) {
+		for (let f in item) {
+			if (fuzzy(item[f], this.filter)) {
+				this.items.push(item);
+				break;
+			}
+		}
+	}
+}
 
 export default {
 	load,
 	setData,
 	sortItems,
-	getItemById
+	getItemById,
+	filterData
 };
