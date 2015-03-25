@@ -24,6 +24,7 @@ function _onClick (e) {
 		target = _closest(target, '.row-action');
 		if (target.dataset) action = target.dataset.action;
 		if (action === 'search') this.toggleSearchBox();
+		e.preventDefault();
 	}
 
 	else if (_closest(target, '.row-action')) {

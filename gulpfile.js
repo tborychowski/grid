@@ -15,7 +15,7 @@ var wpErr = function (err, stats) {
 		if (err.length) notify.onError('Error: ' + err[0].message);
 	};
 
-gulp.task('clean', function (cb) { del(['assets/app.{css,js,map}'], cb); });
+gulp.task('clean', function (cb) { del(['assets/*.{css,js,map}'], cb); });
 
 gulp.task('js', function () {
 	return gulp.src('./app.js')
@@ -27,7 +27,7 @@ gulp.task('js', function () {
 gulp.task('grid', function () {
 	return gulp.src('./src/index.js')
 		.pipe(webpack(require('./webpack-grid.js'), null, wpErr))
-		.pipe(gulp.dest('assets/'));
+		.pipe(gulp.dest('dist/'));
 });
 
 
@@ -50,9 +50,8 @@ gulp.task('styl', function () {
 gulp.task('watch', function () {
 	live.listen();
 	gulp.watch('**/*.styl', ['styl']);
-	gulp.watch(['app.js', 'src/**/*.js'], ['js', 'jshint']);
+	gulp.watch(['app.js', 'src/**/*.js'], ['js', 'grid', 'jshint']);
 });
 
 
-gulp.task('default', ['clean', 'js', 'styl', 'watch']);
-gulp.task('prod', ['clean', 'js', 'styl', 'grid' ]);
+gulp.task('default', ['clean', 'js', 'grid', 'styl', 'watch']);

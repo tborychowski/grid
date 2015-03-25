@@ -129,25 +129,29 @@ button:focus {
 .grid-table .filter-box {
   position: absolute;
   top: 0;
-  left: 50px;
+  left: -3px;
   width: 0;
   z-index: 99;
   overflow: hidden;
   opacity: 0;
   transition: 0.2s ease-out;
 }
-.grid-table .filter-box.visible {
-  width: 400px;
-  opacity: 1;
-}
 .grid-table .filter-input {
   width: 100%;
   background: rgba(255,255,255,0.95);
-  padding: 3px 5px;
+  padding: 3px 5px 3px 25px;
   font-size: 14px;
   line-height: 1;
   font-weight: normal;
   border: none;
+}
+.grid-table .filter-visible .filter-box {
+  width: 400px;
+  opacity: 1;
+}
+.grid-table .filter-visible .row-action {
+  position: relative;
+  z-index: 100;
 }
 .grid-scroller {
   position: absolute;
@@ -211,6 +215,9 @@ button:focus {
 .grid-header-table .grid-cell {
   height: 30px;
   font-weight: bold;
+}
+.grid-header-table .grid-cell.action {
+  padding: 0 3px;
 }
 .grid-header-table .grid-cell.action,
 .grid-header-table .grid-cell.action .grid-header-cell-inner {
@@ -306,6 +313,15 @@ button:focus {
 .grid-dark .row-action:active .fa {
   color: rgba(255,255,255,0.1);
 }
+.grid-dark .filter-visible .row-action .fa {
+  color: rgba(68,68,68,0.5);
+}
+.grid-dark .filter-visible .row-action .fa:hover {
+  color: #444;
+}
+.grid-dark .filter-visible .row-action .fa:active {
+  color: rgba(68,68,68,0.3);
+}
 .grid-dark .grid-header-table .grid-cell {
   background-color: transparent;
 }
@@ -338,6 +354,11 @@ button:focus {
   background-color: #fff;
   border-top: 1px solid #b3b3b4;
   border-bottom: 1px solid #b3b3b4;
+}
+.grid-light .filter-box {
+  top: 2px;
+  left: -1px;
+  height: 25px;
 }
 .grid-light .grid-cell .row-action,
 .grid-light .grid-row .grid-cell .row-action,

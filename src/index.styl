@@ -19,13 +19,17 @@ cell-hpad = 5px;
 			transition color .3s ease-out;
 
 	.filter-box
-		pos 0; left 50; width 0; z 99; overflow hidden; opacity 0;
-		transition .2s ease-out;
-		&.visible
-			width 400; opacity 1;
+		pos 0; left -3; width 0; z 99; overflow hidden; opacity 0; transition .2s ease-out;
 
 	.filter-input
-		width 100%; bg rgba(#fff, 0.95); padding 3 5; font 14/1; b 0; border none;
+		width 100%; bg rgba(#fff, 0.95); padding 3 5 3 25; font 14/1; b 0; border none;
+
+	.filter-visible
+		.filter-box
+			width 400; opacity 1;
+		.row-action
+			position relative; z 100;
+
 
 .grid-scroller
 	pos header-height 0 footer-height 0; overflow hidden; overflow-y auto;
@@ -72,6 +76,7 @@ cell-hpad = 5px;
 		height header-height; b 1;
 
 		&.action
+			padding 0 3;
 			&, .grid-header-cell-inner
 				overflow visible;
 
@@ -114,6 +119,7 @@ cell-hpad = 5px;
 // transparent-on-dark theme
 
 dark-text-color = #fff;
+dark-inverted-text-color = #444;
 dark-grid-border-color = none;
 dark-grid-inner-border-color = #999;
 dark-cell-border-color = none;
@@ -165,6 +171,16 @@ dark-row-selected-bg = rgba(#fff, 0.3);
 		&:active .fa
 			color rgba(dark-text-color, 0.1);
 
+
+	.filter-visible .row-action .fa
+		color rgba(dark-inverted-text-color, 0.5);
+		&:hover
+			color dark-inverted-text-color;
+		&:active
+			color rgba(dark-inverted-text-color, 0.3);
+
+
+
 	.grid-header-table
 		.grid-cell
 			background-color dark-header-bg
@@ -212,6 +228,10 @@ light-row-selected-bg = #DAE1ED;
 		background-color light-row-bg;
 		border-top light-grid-inner-border-color;
 		border-bottom light-grid-inner-border-color;
+
+	.filter-box
+		top 2; left -1; height 25;
+
 
 	.grid-cell
 	.grid-row .grid-cell
