@@ -10,5 +10,5 @@ No external dependencies, just pure ES6 javascript.
 - flexible & easy to use
 - sortable
 - filterable
-- theme-able
+- themable
 - tiny
