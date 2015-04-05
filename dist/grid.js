@@ -338,6 +338,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			target = _closest(target, ".row-action");
 			if (target && target.dataset) action = target.dataset.action;
 			if (action === "search") this.toggleSearchBox();
+			e.preventDefault();
 		} else if (_closest(target, ".row-action")) {
 			target = _closest(target, ".row-action");
 			e.preventDefault();
@@ -566,8 +567,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function toggleSearchBox() {
 		if (!this.hasFilter) {
 			return;
-		}this.el.filterBox.classList.toggle("visible");
-		if (this.el.filterBox.classList.contains("visible")) {
+		}var filterCell = this.el.filterBox.parentNode;
+		filterCell.classList.toggle("filter-visible");
+		if (filterCell.classList.contains("filter-visible")) {
 			this.el.filterInput.focus();
 		}
 	}

@@ -115,8 +115,9 @@ function draw () {
 
 function toggleSearchBox () {
 	if (!this.hasFilter) return;
-	this.el.filterBox.classList.toggle('visible');
-	if (this.el.filterBox.classList.contains('visible')) {
+	var filterCell = this.el.filterBox.parentNode;
+	filterCell.classList.toggle('filter-visible');
+	if (filterCell.classList.contains('filter-visible')) {
 		this.el.filterInput.focus();
 	}
 }

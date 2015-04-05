@@ -9,5 +9,6 @@ No external dependencies, just pure ES6 javascript.
 ###Features
 - flexible & easy to use
 - sortable
-- theme-able
+- filterable
+- themable
 - tiny
