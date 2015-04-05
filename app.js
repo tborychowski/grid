@@ -19,9 +19,9 @@ var data = {
 	]
 };
 
-var grid = window.GRID = new Grid({
+var grid1 = window.GRID = new Grid({
 	// theme: 'light',
-	target: document.getElementById('grid'),
+	target: document.getElementById('grid1'),
 	sort: { by: 'date', order: 'desc' },
 	// dataSource: function (params) {
 	// 	return $.ajax('data.json', params);
@@ -59,5 +59,48 @@ var grid = window.GRID = new Grid({
 	]
 });
 
+
+var grid2 = new Grid({
+	theme: 'light',
+	target: document.getElementById('grid2'),
+	sort: { by: 'date', order: 'desc' },
+	// dataSource: function (params) {
+	// 	return $.ajax('data.json', params);
+	// },
+	dataSource: function (params) {
+		console.log('params: ', params);
+		return {};//data;
+	},
+	columns: [
+		{ width: 50, icons: {
+			pencil: {
+				title: 'Edit',
+				cb: function (item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				}
+			},
+			'trash-o': {
+				title: 'Delete',
+				cb: function (item, row) {
+					this.selectRow(row, true);
+					console.log(item, row);
+				}
+			}
+		}},
+		{ name: 'Date', field: 'date', width: 85 },
+		{ name: 'Category', field: 'category', width: '40%' },
+		{ name: 'Desc', field: 'desc' },
+		{ name: 'Amount', field: 'amount', width: 100,
+			renderer: function (txt) { return '€' + txt; /*rec.amount*/ },
+			footer: function (data) {
+				return '€' + this.items.reduce(function(pre, cur) { return pre + cur.amount; }, 0);
+			}
+		}
+	]
+});
+
+
 // grid.load({ a: 1, b: '2' });
-grid.setData(data);
+grid1.setData(data);
+grid2.setData(data);

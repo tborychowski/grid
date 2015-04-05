@@ -22,7 +22,7 @@ function _onClick (e) {
 
 	else if (_closest(target, '.grid-header-cell.action')) {
 		target = _closest(target, '.row-action');
-		if (target.dataset) action = target.dataset.action;
+		if (target && target.dataset) action = target.dataset.action;
 		if (action === 'search') this.toggleSearchBox();
 	}
 
@@ -64,6 +64,9 @@ function initFilterEvents () {
 			self.populate.call(self);
 			self.toggleSearchBox.call(self);
 		}
+	});
+	this.el.filterInput.addEventListener('blur', function (e) {
+		if (!e.target.value) self.toggleSearchBox.call(self);
 	});
 }
 

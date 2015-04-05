@@ -336,7 +336,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			this.sortItems(target.dataset.sortby, isDesc ? "asc" : "desc");
 		} else if (_closest(target, ".grid-header-cell.action")) {
 			target = _closest(target, ".row-action");
-			if (target.dataset) action = target.dataset.action;
+			if (target && target.dataset) action = target.dataset.action;
 			if (action === "search") this.toggleSearchBox();
 		} else if (_closest(target, ".row-action")) {
 			target = _closest(target, ".row-action");
@@ -377,6 +377,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				self.populate.call(self);
 				self.toggleSearchBox.call(self);
 			}
+		});
+		this.el.filterInput.addEventListener("blur", function (e) {
+			if (!e.target.value) self.toggleSearchBox.call(self);
 		});
 	}
 
