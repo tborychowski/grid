@@ -148,71 +148,6 @@
 
 	var rows = _interopRequire(__webpack_require__(6));
 
-	if (!Object.assign) Object.defineProperty(Object, "assign", {
-		enumerable: false,
-		configurable: true,
-		writable: true,
-		value: function value(target) {
-			for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-				sources[_key - 1] = arguments[_key];
-			}
-
-			if (!target) throw new TypeError("Cannot convert first argument to object");
-			var to = Object(target);
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = sources[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var source = _step.value;
-
-					var keys = Object.keys(Object(source));
-					var _iteratorNormalCompletion2 = true;
-					var _didIteratorError2 = false;
-					var _iteratorError2 = undefined;
-
-					try {
-						for (var _iterator2 = keys[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-							var key = _step2.value;
-
-							var desc = Object.getOwnPropertyDescriptor(source, key);
-							if (desc !== undefined && desc.enumerable) to[key] = source[key];
-						}
-					} catch (err) {
-						_didIteratorError2 = true;
-						_iteratorError2 = err;
-					} finally {
-						try {
-							if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
-								_iterator2["return"]();
-							}
-						} finally {
-							if (_didIteratorError2) {
-								throw _iteratorError2;
-							}
-						}
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator["return"]) {
-						_iterator["return"]();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			return to;
-		}
-	});
-
 	var Grid = function Grid(cfg) {
 		_classCallCheck(this, Grid);
 
@@ -412,7 +347,7 @@
 			var icon = target.querySelector(".fa-sort");
 			var isDesc = icon.classList.contains("fa-sort-desc");
 			this.sortItems(target.dataset.sortby, isDesc ? "asc" : "desc");
-		} else if (_closest(target, ".grid-header-cell.action")) {
+		} else if (_closest(target, ".grid-cell.action")) {
 			target = _closest(target, ".row-action");
 			if (target && target.dataset) action = target.dataset.action;
 			if (action === "search") this.toggleSearchBox();
@@ -453,8 +388,9 @@
 		});
 		this.el.filterInput.addEventListener("keyup", function (e) {
 			if (e.keyCode === 27) {
+				self.el.filterInput.value = "";
+				self.el.filterBtn.focus();
 				self.populate.call(self);
-				self.toggleSearchBox.call(self);
 			}
 		});
 		this.el.filterInput.addEventListener("blur", function (e) {
@@ -502,7 +438,7 @@
 				col.headerCls = ["grid-cell", "grid-header-cell", col.field, sortCls];
 				if (!col.name && col.icons) {
 					col.headerCls.push("action");
-					col.name = "<a href=\"#\" class=\"row-action\" data-action=\"search\" " + "title=\"Search\"><i class=\"fa fa-search\"></i></a>" + "<div class=\"filter-box\"><input class=\"filter-input\" type=\"text\"></div>";
+					col.name = "<a href=\"#\" class=\"row-action filter-btn\" data-action=\"search\" " + "title=\"Search\"><i class=\"fa fa-search\"></i></a>" + "<div class=\"filter-box\"><input class=\"filter-input\" type=\"text\"></div>";
 					this.hasFilter = true;
 				}
 				col.headerCls = col.headerCls.join(" ");
@@ -611,8 +547,9 @@
 		if (!this.isRendered) {
 			this.el.head.innerHTML = _getHeaderRow.call(this);
 			if (this.hasFilter) {
-				this.el.filterBox = this.el.head.querySelector(".filter-box");
-				this.el.filterInput = this.el.head.querySelector(".filter-input");
+				this.el.filterBox = this.el.target.querySelector(".filter-box");
+				this.el.filterInput = this.el.target.querySelector(".filter-input");
+				this.el.filterBtn = this.el.target.querySelector(".filter-btn");
 				this.initFilterEvents();
 			}
 			this.isRendered = true;
@@ -645,11 +582,9 @@
 	function toggleSearchBox() {
 		if (!this.hasFilter) {
 			return;
-		}var filterCell = this.el.filterBox.parentNode;
-		filterCell.classList.toggle("filter-visible");
-		if (filterCell.classList.contains("filter-visible")) {
-			this.el.filterInput.focus();
-		}
+		}var filterCell = this.el.filterBox.parentNode.classList;
+		filterCell.toggle("filter-visible");
+		if (filterCell.contains("filter-visible")) this.el.filterInput.focus();
 	}
 
 	module.exports = {
@@ -829,7 +764,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var H = __webpack_require__(11);
-	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("footerCls",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<span class=\"grid-footer-cell-inner\">");t.b(t.v(t.f("footerText",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{footerCls}}\">\r\n\t<span class=\"grid-footer-cell-inner\">{{footerText}}</span>\r\n</td>", H);return T.render.apply(T, arguments); };
+	module.exports = function() { var T = new H.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<td class=\"");t.b(t.v(t.f("footerCls",c,p,0)));t.b("\">\r");t.b("\n" + i);t.b("	<span class=\"grid-footer-cell-inner\">");t.b(t.t(t.f("footerText",c,p,0)));t.b("</span>\r");t.b("\n" + i);t.b("</td>");return t.fl(); },partials: {}, subs: {  }}, "<td class=\"{{footerCls}}\">\r\n\t<span class=\"grid-footer-cell-inner\">{{{footerText}}}</span>\r\n</td>", H);return T.render.apply(T, arguments); };
 
 /***/ },
 /* 11 */

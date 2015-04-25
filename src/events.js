@@ -20,7 +20,7 @@ function _onClick (e) {
 		this.sortItems(target.dataset.sortby, isDesc ? 'asc' : 'desc');
 	}
 
-	else if (_closest(target, '.grid-header-cell.action')) {
+	else if (_closest(target, '.grid-cell.action')) {
 		target = _closest(target, '.row-action');
 		if (target && target.dataset) action = target.dataset.action;
 		if (action === 'search') this.toggleSearchBox();
@@ -62,8 +62,9 @@ function initFilterEvents () {
 	});
 	this.el.filterInput.addEventListener('keyup', function (e) {
 		if (e.keyCode === 27) {
+			self.el.filterInput.value = '';
+			self.el.filterBtn.focus();
 			self.populate.call(self);
-			self.toggleSearchBox.call(self);
 		}
 	});
 	this.el.filterInput.addEventListener('blur', function (e) {

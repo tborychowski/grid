@@ -24,7 +24,7 @@ function _getHeaderRow () {
 		col.headerCls = ['grid-cell', 'grid-header-cell', col.field, sortCls];
 		if (!col.name && col.icons) {
 			col.headerCls.push('action');
-			col.name = '<a href="#" class="row-action" data-action="search" ' +
+			col.name = '<a href="#" class="row-action filter-btn" data-action="search" ' +
 				'title="Search"><i class="fa fa-search"></i></a>' +
 				'<div class="filter-box"><input class="filter-input" type="text"></div>';
 			this.hasFilter = true;
@@ -81,8 +81,9 @@ function populate (filter) {
 	if (!this.isRendered) {
 		this.el.head.innerHTML = _getHeaderRow.call(this);
 		if (this.hasFilter) {
-			this.el.filterBox = this.el.head.querySelector('.filter-box');
-			this.el.filterInput = this.el.head.querySelector('.filter-input');
+			this.el.filterBox = this.el.target.querySelector('.filter-box');
+			this.el.filterInput = this.el.target.querySelector('.filter-input');
+			this.el.filterBtn = this.el.target.querySelector('.filter-btn');
 			this.initFilterEvents();
 		}
 		this.isRendered = true;
@@ -115,11 +116,9 @@ function draw () {
 
 function toggleSearchBox () {
 	if (!this.hasFilter) return;
-	var filterCell = this.el.filterBox.parentNode;
-	filterCell.classList.toggle('filter-visible');
-	if (filterCell.classList.contains('filter-visible')) {
-		this.el.filterInput.focus();
-	}
+	var filterCell = this.el.filterBox.parentNode.classList;
+	filterCell.toggle('filter-visible');
+	if (filterCell.contains('filter-visible')) this.el.filterInput.focus();
 }
 
 export default {
