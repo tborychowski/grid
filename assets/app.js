@@ -347,7 +347,7 @@
 			var icon = target.querySelector(".fa-sort");
 			var isDesc = icon.classList.contains("fa-sort-desc");
 			this.sortItems(target.dataset.sortby, isDesc ? "asc" : "desc");
-		} else if (_closest(target, ".grid-cell.action")) {
+		} else if (_closest(target, ".grid-header-cell.action")) {
 			target = _closest(target, ".row-action");
 			if (target && target.dataset) action = target.dataset.action;
 			if (action === "search") this.toggleSearchBox();
