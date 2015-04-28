@@ -26,6 +26,14 @@ function _sortFn (sort, items) {
 	}
 }
 
+function _fuzzy (haystack, s) {
+    var hay = ('' + haystack).toLowerCase(), i = 0, n = -1, l;
+    s = ('' + s).toLowerCase();
+    for (; l = s[i++] ;) if (!~(n = hay.indexOf(l, n + 1))) return false;
+    return true;
+}
+
+
 
 function load (params = {}) {
 	this.data = {};
@@ -75,13 +83,6 @@ function getItemById (id) {
 	return this.items.filter(item => item.id.toString() === id)[0];
 }
 
-function fuzzy (haystack, s) {
-    var hay = ('' + haystack).toLowerCase(), i = 0, n = -1, l;
-    s = ('' + s).toLowerCase();
-    for (; l = s[i++] ;) if (!~(n = hay.indexOf(l, n + 1))) return false;
-    return true;
-}
-
 
 function filterData () {
 	if (!this.filter) {
@@ -91,7 +92,7 @@ function filterData () {
 	this.items = [];
 	for (let item of this.originalItems) {
 		for (let f in item) {
-			if (fuzzy(item[f], this.filter)) {
+			if (_fuzzy(item[f], this.filter)) {
 				this.items.push(item);
 				break;
 			}
