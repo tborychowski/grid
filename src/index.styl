@@ -204,14 +204,14 @@ dark-row-selected-bg = rgba(#fff, 0.3);
 
 /*** LIGHT THEME **********************************************************************************/
 light-text-color = #333;
-light-grid-border-color = #B3B3B4;
-light-grid-inner-border-color = #B3B3B4;
-light-cell-border-color = #ddd;
-light-header-bg = #DAE1ED;
+light-grid-border-color = none;
+light-grid-inner-border-color = #ccc;
+light-cell-border-color = none;
+light-header-bg = #fff;
 light-row-bg = #fff;
-light-row-alt-bg = #FAFCFD;
-light-row-hover-bg = #E4EBF7;
-light-row-selected-bg = #DAE1ED;
+light-row-alt-bg = #fff;
+light-row-hover-bg = #f1f1f1;
+light-row-selected-bg = #EA9E75;
 
 .grid-light
 	border light-grid-border-color;
@@ -223,9 +223,6 @@ light-row-selected-bg = #DAE1ED;
 		background-color light-row-bg;
 		border-top light-grid-inner-border-color;
 		border-bottom light-grid-inner-border-color;
-
-	.filter-box
-		top 2; left -1; height 25;
 
 	.grid-cell
 	.grid-row .grid-cell

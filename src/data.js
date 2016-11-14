@@ -1,6 +1,6 @@
 function _type (items, field) {
 	if (!items || !items.length) return 'str';
-	var i, v, t, item;
+	let i, v, t, item;
 	for (i = 0; item = items[i]; i++) {
 		if (item && item[field]) v = (typeof item[field]);
 		if (v === 'number' || v === 'string') t = v.substr(0, 3);
@@ -11,8 +11,10 @@ function _type (items, field) {
 
 
 function _sortFn (sort, items) {
-	var by = sort.by, order = sort.order, sortType = _type(items, by),
-		strCmp = (a, b) => ('' + a[by]).toLowerCase().localeCompare(('' + b[by]).toLowerCase());
+	const by = sort.by;
+	const order = sort.order;
+	const sortType = _type(items, by);
+	const strCmp = (a, b) => ('' + a[by]).toLowerCase().localeCompare(('' + b[by]).toLowerCase());
 
 	// compare as numbers
 	if (sortType === 'num') {
@@ -26,11 +28,12 @@ function _sortFn (sort, items) {
 	}
 }
 
-function _fuzzy (haystack, s) {
-    var hay = ('' + haystack).toLowerCase(), i = 0, n = -1, l;
-    s = ('' + s).toLowerCase();
-    for (; l = s[i++] ;) if (!~(n = hay.indexOf(l, n + 1))) return false;
-    return true;
+function _fuzzy (hay, s) {
+	s = ('' + s).toLowerCase();
+	hay = ('' + hay).toLowerCase();
+	let n = -1;
+	for (let l of s) if (!~(n = hay.indexOf(l, n + 1))) return false;
+	return true;
 }
 
 
@@ -38,8 +41,8 @@ function _fuzzy (haystack, s) {
 function load (params = {}) {
 	this.data = {};
 	this.items = [];
-	if (!this.cfg.dataSource) throw 'No data source';
-	var src = this.cfg.dataSource(params);
+	if (!this.cfg.dataSource) throw new Error('No data source');
+	const src = this.cfg.dataSource(params);
 	if (src instanceof Promise) src.then(this.setData.bind(this));
 	else this.setData(src);
 	return this;
@@ -47,7 +50,7 @@ function load (params = {}) {
 
 
 function setData (data) {
-	if (!data) throw 'No data!';
+	if (!data) throw new Error('No data!');
 	this.data = data;
 	if (this.cfg.items.root && data[this.cfg.items.root]) {
 		this.items = data[this.cfg.items.root] || [];
@@ -63,17 +66,17 @@ function sortItems (sortBy, order) {
 	if (order) this.cfg.sort.order = order;
 
 	if (this.originalItems.length) {
-		this.originalItems.sort(_sortFn({ by: 'id', order: 'desc'}, this.originalItems));
+		this.originalItems.sort(_sortFn({ by: 'id', order: 'desc' }, this.originalItems));
 		if (sortBy) this.originalItems.sort(_sortFn(this.cfg.sort, this.originalItems));
 	}
 	this.populate();
 
-	var all = this.el.head.querySelectorAll('.sort .fa-sort'),
-		cur = this.el.head.querySelector('.sort.' + this.cfg.sort.by + ' .fa-sort');
-	for (let i = 0, l = all.length; i < l; i++) {
-		all[i].classList.remove('fa-sort-asc', 'fa-sort-desc');
-	}
+	const all = this.el.head.querySelectorAll('.sort .fa-sort');
+	const cur = this.el.head.querySelector('.sort.' + this.cfg.sort.by + ' .fa-sort');
+
+	for (let el of all) el.classList.remove('fa-sort-asc', 'fa-sort-desc');
 	if (cur) cur.classList.add('fa-sort-' + this.cfg.sort.order);
+
 	return this;
 }
 
@@ -99,6 +102,7 @@ function filterData () {
 		}
 	}
 }
+
 
 export default {
 	load,

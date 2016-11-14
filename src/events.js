@@ -1,5 +1,5 @@
 function _closest (el, selector) {
-	var has = false;
+	let has = false;
 	while (!has && el) {
 		has = el.matches(selector);
 		if (has) return el;
@@ -11,7 +11,7 @@ function _closest (el, selector) {
 
 
 function _onClick (e) {
-	var target = e.target, action = '';
+	let target = e.target, action = '';
 
 	if (_closest(target, 'td.sort')) {
 		target = _closest(target, 'td.sort');
@@ -39,7 +39,7 @@ function _onClick (e) {
 }
 
 function _onScroll () {
-	var scrld = this.el.scroller.scrollTop > 0;
+	const scrld = this.el.scroller.scrollTop > 0;
 	this.el.headTable.classList.toggle('grid-header-scroll-over', scrld);
 }
 
@@ -56,19 +56,19 @@ function initEvents () {
 
 function initFilterEvents () {
 	if (!this.hasFilter) return;
-	var self = this;
-	this.el.filterInput.addEventListener('input', function () {
-		self.populate.call(self, this.value);
+	this.el.filterInput.addEventListener('input', () => {
+		this.populate(this.el.filterInput.value);
 	});
-	this.el.filterInput.addEventListener('keyup', function (e) {
+
+	this.el.filterInput.addEventListener('keyup', (e) => {
 		if (e.keyCode === 27) {
-			self.el.filterInput.value = '';
-			self.el.filterBtn.focus();
-			self.populate.call(self);
+			this.el.filterInput.value = '';
+			this.el.filterBtn.focus();
+			this.populate();
 		}
 	});
-	this.el.filterInput.addEventListener('blur', function (e) {
-		if (!e.target.value) self.toggleSearchBox.call(self);
+	this.el.filterInput.addEventListener('blur', (e) => {
+		if (!e.target.value) this.toggleSearchBox();
 	});
 }
 

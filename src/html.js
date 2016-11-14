@@ -1,12 +1,12 @@
-var frameTpl = require('./templates/grid-frame.html');
-var rowTpl = require('./templates/body-row.html');
-var headerCellTpl = require('./templates/header-cell.html');
-var footerCellTpl = require('./templates/footer-cell.html');
+const frameTpl = require('./templates/grid-frame.html');
+const rowTpl = require('./templates/body-row.html');
+const headerCellTpl = require('./templates/header-cell.html');
+const footerCellTpl = require('./templates/footer-cell.html');
 
 
 function _getRowIcons (icons) {
-	var iconHtml = '', icon;
-	for (icon in icons) {
+	let iconHtml = '';
+	for (let icon in icons) {
 		let title = icons[icon] && icons[icon].title || icon;
 		iconHtml += '<a href="#" class="row-action" ' +
 			'data-action="' + icon + '" ' +
@@ -18,7 +18,7 @@ function _getRowIcons (icons) {
 
 
 function _getHeaderRow () {
-	var cells = [];
+	const cells = [];
 	for (let col of this.cfg.columns) {
 		let sortCls = (col.sortable ? 'sort' : '');
 		col.headerCls = ['grid-cell', 'grid-header-cell', col.field, sortCls];
@@ -37,7 +37,7 @@ function _getHeaderRow () {
 
 
 function _getFooterRow () {
-	var cells = [];
+	const cells = [];
 	for (let col of this.cfg.columns) {
 		col.footerCls = ['grid-cell', 'grid-footer-cell', col.field].join(' ');
 		if (typeof col.footer === 'function') col.footerText = col.footer.call(this, this.data);
@@ -48,7 +48,7 @@ function _getFooterRow () {
 }
 
 function _getBodyRow (item) {
-	var cells = [];
+	const cells = [];
 	for (let col of this.cfg.columns) {
 		let cls = [col.field, col.icons ? 'action' : ''].join(' ');
 		let text = item[col.field];
@@ -62,10 +62,7 @@ function _getBodyRow (item) {
 }
 
 function _getEmptyRow () {
-	return '<tr class="grid-row">' +
-		'<td class="grid-no-items" colspan="' + this.cfg.columns.length + '">' +
-			'No entries</td><tr>';
-
+	return `<tr class="grid-row"><td class="grid-no-items" colspan="${this.cfg.columns.length}">No entries</td><tr>`;
 }
 
 
@@ -97,13 +94,13 @@ function populate (filter) {
 
 
 function draw () {
-	var theme = (this.cfg.theme ? 'grid-' + this.cfg.theme : ''),
-		target = this.cfg.target;
+	const theme = (this.cfg.theme ? 'grid-' + this.cfg.theme : '');
+	const target = this.cfg.target;
 
 	this.isRendered = false;
 	target.innerHTML = frameTpl({theme});
 	this.el = {
-		target: target,
+		target,
 		scroller: target.querySelector('.grid-scroller'),
 		head: target.querySelector('.grid-header'),
 		body: target.querySelector('.grid-body'),
@@ -116,7 +113,7 @@ function draw () {
 
 function toggleSearchBox () {
 	if (!this.hasFilter) return;
-	var filterCell = this.el.filterBox.parentNode.classList;
+	const filterCell = this.el.filterBox.parentNode.classList;
 	filterCell.toggle('filter-visible');
 	if (filterCell.contains('filter-visible')) this.el.filterInput.focus();
 }

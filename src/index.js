@@ -20,4 +20,5 @@ class Grid {
 }
 
 Object.assign(Grid.prototype, data, events, html, columns, rows);
+
 export default Grid;

@@ -1,5 +1,7 @@
 function processColumns () {
-	var actions = {}, colWidths = [];
+	const actions = {};
+	const colWidths = [];
+
 	for (let col of this.cfg.columns) {
 		col.name = col.name || '';
 		col.field = col.field || '';
@@ -25,20 +27,19 @@ function processColumns () {
 
 
 function updateColumnWidths () {
-	var autos = 0, sumW = 0, remainingW, autoPercent = 100, autoW,
-		headCols = this.el.head.querySelectorAll('.grid-cell'),
-		bodyCols = this.el.body.querySelectorAll('.grid-row:first-of-type .grid-cell'),
-		footCols = this.el.foot.querySelectorAll('.grid-cell');
+	const headCols = this.el.head.querySelectorAll('.grid-cell');
+	const bodyCols = this.el.body.querySelectorAll('.grid-row:first-of-type .grid-cell');
+	const footCols = this.el.foot.querySelectorAll('.grid-cell');
+	let autos = 0;
+	let autoPercent = 100;
 
 	// calculate columns widths
 	for (let col of this.columnWidths) {
-		if (typeof col === 'number') sumW += col;
+		if (typeof col === 'number') continue;
 		else if (col === 'auto') autos++;
 		else if (col.indexOf('%') > -1) autoPercent -= parseInt(col, 10);
 	}
-	remainingW = this.el.head.offsetWidth - sumW;
 	autoPercent = autoPercent / autos;
-	autoW = remainingW * autoPercent / 100;
 
 	this.columnWidths.forEach(function (col, i) {
 		if (col === 'auto') col = autoPercent + '%';
@@ -60,7 +61,6 @@ function updateTableWidths () {
 	tabStyle.width = (bodyW === headW ? '100%' : headW + 'px');
 	return this;
 }
-
 
 
 

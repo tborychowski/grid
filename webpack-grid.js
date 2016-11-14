@@ -13,9 +13,10 @@ module.exports = {
 		loaders: [
 			{ test: /\.html$/, loader: 'mustache' },
 			{
+				loader: 'babel-loader',
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel-loader?experimental&comments=false'
+				query: { presets: ['es2015'] }
 			}
 		]
 	}
