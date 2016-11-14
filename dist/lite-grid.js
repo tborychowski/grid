@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["grid"] = factory();
+		exports["lite-grid"] = factory();
 	else
-		root["grid"] = factory();
+		root["lite-grid"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache

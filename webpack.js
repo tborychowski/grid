@@ -4,7 +4,7 @@ module.exports = {
 	output: {
 		publicPath: './assets/',
 		filename: 'app.js',
-		sourceMapFilename: 'grid.js.map'
+		sourceMapFilename: 'lite-grid.js.map'
 	},
 	resolve: {
 		root: __dirname,

@@ -19,7 +19,7 @@ const wpErr = (err, stats) => {
 };
 
 
-gulp.task('clean', cb => del(['assets/*.{css,js,map}'], cb));
+gulp.task('clean', cb => del(['{assets,dist}/*.{css,js,map}'], cb));
 
 
 gulp.task('js', ['eslint'], () => {

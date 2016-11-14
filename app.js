@@ -1,28 +1,6 @@
-/*** Object assign shim ***/
-if (!Object.assign) Object.defineProperty(Object, 'assign', {
-	enumerable: false,
-	configurable: true,
-	writable: true,
-	value: function (target, ...sources) {
-		if (!target) throw new TypeError('Cannot convert first argument to object');
-		var to = Object(target);
-		for (let source of sources) {
-			let keys = Object.keys(Object(source));
-			for (let key of keys) {
-				let desc = Object.getOwnPropertyDescriptor(source, key);
-				if (desc !== undefined && desc.enumerable) to[key] = source[key];
-			}
-		}
-		return to;
-	}
-});
-
-
-
 import Grid from 'src';
-// var Grid = require('./assets/grid');
 
-var data = {
+const data = {
 	total: 10,
 	totalAmount: 100,
 	items: [
@@ -40,82 +18,94 @@ var data = {
 	]
 };
 
-var grid1 = window.GRID = new Grid({
+const grid1 = window.GRID = new Grid({
 	// theme: 'light',
 	target: document.getElementById('grid1'),
 	sort: { by: 'date', order: 'desc' },
 	// dataSource: function (params) {
 	// 	return $.ajax('data.json', params);
 	// },
-	dataSource: function (params) {
+	dataSource: (params) => {
 		console.log('params: ', params);
-		return {};//data;
+		return {}; // data;
 	},
 	columns: [
-		{ width: 50, icons: {
-			pencil: {
-				title: 'Edit',
-				cb: function (item, row) {
-					this.selectRow(row, true);
-					console.log(item, row);
-				}
-			},
-			'trash-o': {
-				title: 'Delete',
-				cb: function (item, row) {
-					this.selectRow(row, true);
-					console.log(item, row);
+		{
+			width: 50,
+			icons: {
+				pencil: {
+					title: 'Edit',
+					cb: function (item, row) {
+						this.selectRow(row, true);
+						console.log(item, row);
+					}
+				},
+				'trash-o': {
+					title: 'Delete',
+					cb: function (item, row) {
+						this.selectRow(row, true);
+						console.log(item, row);
+					}
 				}
 			}
-		}},
+		},
 		{ name: 'Date', field: 'date', width: 85 },
 		{ name: 'Category', field: 'category', width: '40%' },
 		{ name: 'Desc', field: 'desc' },
-		{ name: 'Amount', field: 'amount', width: 100,
-			renderer: function (txt) { return '€' + txt; /*rec.amount*/ },
+		{
+			name: 'Amount',
+			field: 'amount',
+			width: 100,
+			renderer: (txt) => `€${txt}`,  // or rec.amount
 			footer: function (data) {
-				return '€' + this.items.reduce(function(pre, cur) { return pre + cur.amount; }, 0);
+				return '€' + this.items.reduce((pre, cur) => pre + cur.amount, 0);
 			}
 		}
 	]
 });
 
 
-var grid2 = new Grid({
+const grid2 = new Grid({
 	theme: 'light',
 	target: document.getElementById('grid2'),
 	sort: { by: 'date', order: 'desc' },
 	// dataSource: function (params) {
 	// 	return $.ajax('data.json', params);
 	// },
-	dataSource: function (params) {
+	dataSource: (params) => {
 		console.log('params: ', params);
-		return {};//data;
+		return {}; // data;
 	},
 	columns: [
-		{ width: 50, icons: {
-			pencil: {
-				title: 'Edit',
-				cb: function (item, row) {
-					this.selectRow(row, true);
-					console.log(item, row);
-				}
-			},
-			'trash-o': {
-				title: 'Delete',
-				cb: function (item, row) {
-					this.selectRow(row, true);
-					console.log(item, row);
+		{
+			width: 50,
+			icons: {
+				pencil: {
+					title: 'Edit',
+					cb: function (item, row) {
+						this.selectRow(row, true);
+						console.log(item, row);
+					}
+				},
+				'trash-o': {
+					title: 'Delete',
+					cb: function (item, row) {
+						this.selectRow(row, true);
+						console.log(item, row);
+					}
 				}
 			}
-		}},
+		},
 		{ name: 'Date', field: 'date', width: 85 },
 		{ name: 'Category', field: 'category', width: '40%' },
 		{ name: 'Desc', field: 'desc' },
-		{ name: 'Amount', field: 'amount', width: 100,
-			renderer: function (txt) { return '€' + txt; /*rec.amount*/ },
+		{
+			name: 'Amount',
+			field: 'amount',
+			width: 100,
+			renderer: (txt) => `€${txt}`,  // or rec.amount
 			footer: function (data) {
-				return '€' + this.items.reduce(function(pre, cur) { return pre + cur.amount; }, 0);
+				return '€' + this.items.reduce((pre, cur) => pre + cur.amount, 0);
 			}
 		}
 	]

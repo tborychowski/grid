@@ -1,9 +1,9 @@
 module.exports = {
 	debug: false,
 	output: {
-		library: 'grid',
+		library: 'lite-grid',
 		libraryTarget: 'umd',
-		filename: 'grid.js'
+		filename: 'lite-grid.js'
 	},
 	resolve: {
 		root: __dirname,

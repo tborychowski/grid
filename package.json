@@ -8,7 +8,7 @@
     "type": "git",
     "url": "git@github.com:tborychowski/grid.git"
   },
-  "main": "dist/grid.js",
+  "main": "dist/lite-grid.js",
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
