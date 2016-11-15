@@ -36,6 +36,12 @@ function _onClick (e) {
 		if (target.dataset) action = target.dataset.action;
 		this.iconHandlers[action].call(this, item || null, row || null);
 	}
+	else if (_closest(target, '.grid-row')) {
+		let row = _closest(target, '.grid-row'),
+			id = row && +row.dataset.id,
+			item = row && this.getItemById(id);
+		this.cfg.onRowClick.call(this, item || null, row || null);
+	}
 }
 
 function _onScroll () {

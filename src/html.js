@@ -83,8 +83,6 @@ function populate (filter) {
 			if (this.cfg.filter) {
 				if (this.cfg.filter.input) this.el.filterInput = document.querySelector(this.cfg.filter.input);
 				if (this.cfg.filter.box) this.el.filterBox = this.el.target.querySelector(this.cfg.filter.box);
-				if (this.cfg.filter.btn) this.el.filterBtn = document.querySelector(this.cfg.filter.btn);
-
 				if (!this.el.filterInput) console.error(`External filter input not found: ${this.cfg.filter.input}`);
 			}
 			else {

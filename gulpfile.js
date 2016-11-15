@@ -31,7 +31,7 @@ gulp.task('js', ['eslint'], () => {
 });
 
 
-gulp.task('dist', () => {
+gulp.task('grid', () => {
 	return gulp.src('./src/index.js')
 		.pipe(webpack(require('./webpack-grid.js'), null, wpErr))
 		.pipe(uglify())

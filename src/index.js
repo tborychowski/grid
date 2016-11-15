@@ -11,6 +11,7 @@ class Grid {
 			target: document.body,
 			sort: { by: 'id', order: 'asc' },
 			dataSource: null,
+			onRowClick: function (item, row) {},
 			items: { label: 'items', root: 'items', itemId: 'id' },
 			columns: []
 		};

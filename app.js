@@ -29,6 +29,10 @@ const grid1 = window.GRID = new Grid({
 		console.log('params: ', params);
 		return {}; // data;
 	},
+	onRowClick: function (item, row) {
+		this.selectRow(row, true);
+		console.log(item, row);
+	},
 	filter: {
 		input: '#filterGrid1'
 	},
