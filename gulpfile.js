@@ -31,10 +31,10 @@ gulp.task('js', ['eslint'], () => {
 });
 
 
-gulp.task('grid', () => {
+gulp.task('dist', () => {
 	return gulp.src('./src/index.js')
 		.pipe(webpack(require('./webpack-grid.js'), null, wpErr))
-		.pipe(gutil.env.prod ? uglify() : gutil.noop())
+		.pipe(uglify())
 		.pipe(gulp.dest('dist/'));
 });
 
@@ -66,5 +66,4 @@ gulp.task('watch', () => {
 });
 
 
-gulp.task('dist', ['grid']);
 gulp.task('default', ['clean', 'js', 'grid', 'styl', 'watch']);

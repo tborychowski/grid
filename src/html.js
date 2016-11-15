@@ -19,16 +19,18 @@ function _getRowIcons (icons) {
 
 function _getHeaderRow () {
 	const cells = [];
+	const hasFilter = (this.cfg.filter === true || typeof this.cfg.filter === 'undefined');
 	for (let col of this.cfg.columns) {
 		let sortCls = (col.sortable ? 'sort' : '');
 		col.headerCls = ['grid-cell', 'grid-header-cell', col.field, sortCls];
-		if (!col.name && col.icons) {
+		if (!col.name && (col.icons && hasFilter)) {
 			col.headerCls.push('action');
 			col.name = '<a href="#" class="row-action filter-btn" data-action="search" ' +
 				'title="Search"><i class="fa fa-search"></i></a>' +
 				'<div class="filter-box"><input class="filter-input" type="text"></div>';
 			this.hasFilter = true;
 		}
+		else this.hasFilter = !!this.cfg.filter;
 		col.headerCls = col.headerCls.join(' ');
 		cells.push(headerCellTpl(col));
 	}
@@ -78,9 +80,18 @@ function populate (filter) {
 	if (!this.isRendered) {
 		this.el.head.innerHTML = _getHeaderRow.call(this);
 		if (this.hasFilter) {
-			this.el.filterBox = this.el.target.querySelector('.filter-box');
-			this.el.filterInput = this.el.target.querySelector('.filter-input');
-			this.el.filterBtn = this.el.target.querySelector('.filter-btn');
+			if (this.cfg.filter) {
+				if (this.cfg.filter.input) this.el.filterInput = document.querySelector(this.cfg.filter.input);
+				if (this.cfg.filter.box) this.el.filterBox = this.el.target.querySelector(this.cfg.filter.box);
+				if (this.cfg.filter.btn) this.el.filterBtn = document.querySelector(this.cfg.filter.btn);
+
+				if (!this.el.filterInput) console.error(`External filter input not found: ${this.cfg.filter.input}`);
+			}
+			else {
+				this.el.filterBox = this.el.target.querySelector('.filter-box');
+				this.el.filterInput = this.el.target.querySelector('.filter-input');
+				this.el.filterBtn = this.el.target.querySelector('.filter-btn');
+			}
 			this.initFilterEvents();
 		}
 		this.isRendered = true;
@@ -112,7 +123,7 @@ function draw () {
 }
 
 function toggleSearchBox () {
-	if (!this.hasFilter) return;
+	if (!this.hasFilter || !this.el.filterBox) return;
 	const filterCell = this.el.filterBox.parentNode.classList;
 	filterCell.toggle('filter-visible');
 	if (filterCell.contains('filter-visible')) this.el.filterInput.focus();

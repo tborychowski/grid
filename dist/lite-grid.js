@@ -373,7 +373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		this.el.filterInput.addEventListener('keyup', function (e) {
 			if (e.keyCode === 27) {
 				_this.el.filterInput.value = '';
-				_this.el.filterBtn.focus();
+				if (_this.el.filterBtn) _this.el.filterBtn.focus();
 				_this.populate();
 			}
 		});
@@ -412,6 +412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _getHeaderRow() {
 		var cells = [];
+		var hasFilter = this.cfg.filter === true || typeof this.cfg.filter === 'undefined';
 		var _iteratorNormalCompletion = true;
 		var _didIteratorError = false;
 		var _iteratorError = undefined;
@@ -422,11 +423,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var sortCls = col.sortable ? 'sort' : '';
 				col.headerCls = ['grid-cell', 'grid-header-cell', col.field, sortCls];
-				if (!col.name && col.icons) {
+				if (!col.name && col.icons && hasFilter) {
 					col.headerCls.push('action');
 					col.name = '<a href="#" class="row-action filter-btn" data-action="search" ' + 'title="Search"><i class="fa fa-search"></i></a>' + '<div class="filter-box"><input class="filter-input" type="text"></div>';
 					this.hasFilter = true;
-				}
+				} else this.hasFilter = !!this.cfg.filter;
 				col.headerCls = col.headerCls.join(' ');
 				cells.push(headerCellTpl(col));
 			}
@@ -532,9 +533,17 @@ return /******/ (function(modules) { // webpackBootstrap
 		if (!this.isRendered) {
 			this.el.head.innerHTML = _getHeaderRow.call(this);
 			if (this.hasFilter) {
-				this.el.filterBox = this.el.target.querySelector('.filter-box');
-				this.el.filterInput = this.el.target.querySelector('.filter-input');
-				this.el.filterBtn = this.el.target.querySelector('.filter-btn');
+				if (this.cfg.filter) {
+					if (this.cfg.filter.input) this.el.filterInput = document.querySelector(this.cfg.filter.input);
+					if (this.cfg.filter.box) this.el.filterBox = this.el.target.querySelector(this.cfg.filter.box);
+					if (this.cfg.filter.btn) this.el.filterBtn = document.querySelector(this.cfg.filter.btn);
+
+					if (!this.el.filterInput) console.error('External filter input not found: ' + this.cfg.filter.input);
+				} else {
+					this.el.filterBox = this.el.target.querySelector('.filter-box');
+					this.el.filterInput = this.el.target.querySelector('.filter-input');
+					this.el.filterBtn = this.el.target.querySelector('.filter-btn');
+				}
 				this.initFilterEvents();
 			}
 			this.isRendered = true;
@@ -565,7 +574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function toggleSearchBox() {
-		if (!this.hasFilter) return;
+		if (!this.hasFilter || !this.el.filterBox) return;
 		var filterCell = this.el.filterBox.parentNode.classList;
 		filterCell.toggle('filter-visible');
 		if (filterCell.contains('filter-visible')) this.el.filterInput.focus();

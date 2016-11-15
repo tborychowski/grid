@@ -2,3 +2,4 @@ fonts
 node_modules
 *.sublime-*
 npm-debug.log
+.DS_Store

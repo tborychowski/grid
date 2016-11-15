@@ -29,6 +29,9 @@ const grid1 = window.GRID = new Grid({
 		console.log('params: ', params);
 		return {}; // data;
 	},
+	filter: {
+		input: '#filterGrid1'
+	},
 	columns: [
 		{
 			width: 50,

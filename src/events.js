@@ -63,7 +63,7 @@ function initFilterEvents () {
 	this.el.filterInput.addEventListener('keyup', (e) => {
 		if (e.keyCode === 27) {
 			this.el.filterInput.value = '';
-			this.el.filterBtn.focus();
+			if (this.el.filterBtn) this.el.filterBtn.focus();
 			this.populate();
 		}
 	});
