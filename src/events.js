@@ -61,7 +61,7 @@ function initEvents () {
 }
 
 function initFilterEvents () {
-	if (!this.hasFilter) return;
+	if (!this.hasFilter || !this.el.filterInput) return;
 	this.el.filterInput.addEventListener('input', () => {
 		this.populate(this.el.filterInput.value);
 	});
