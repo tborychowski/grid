@@ -19,13 +19,11 @@ function _sortFn (sort, items) {
 	// compare as numbers
 	if (sortType === 'num') {
 		if (order === 'asc') return (a, b) => a[by] - b[by];
-		else return (a, b) => b[by] - a[by];
+		return (a, b) => b[by] - a[by];
 	}
 	// compare as strings
-	else {
-		if (order === 'asc') return (a, b) => strCmp(a, b);
-		else return (a, b) => strCmp(b, a);
-	}
+	if (order === 'asc') return (a, b) => strCmp(a, b);
+	return (a, b) => strCmp(b, a);
 }
 
 function _fuzzy (hay, s) {

@@ -249,18 +249,18 @@
 		if (sortType === 'num') {
 			if (order === 'asc') return function (a, b) {
 				return a[by] - b[by];
-			};else return function (a, b) {
+			};
+			return function (a, b) {
 				return b[by] - a[by];
 			};
 		}
 		// compare as strings
-		else {
-				if (order === 'asc') return function (a, b) {
-					return strCmp(a, b);
-				};else return function (a, b) {
-					return strCmp(b, a);
-				};
-			}
+		if (order === 'asc') return function (a, b) {
+			return strCmp(a, b);
+		};
+		return function (a, b) {
+			return strCmp(b, a);
+		};
 	}
 
 	function _fuzzy(hay, s) {
