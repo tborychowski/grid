@@ -1,2 +1,410 @@
-body,button{cursor:default}#grid1,#grid2{top:30px;bottom:0;width:50%;position:absolute}#grid1 .grid-body .amount,#grid1 .grid-footer .amount,#grid2 .grid-body .amount,#grid2 .grid-footer .amount{text-align:right}#filterGrid1,#grid1,#grid2{position:absolute}body,html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;width:100%;height:100%;overflow:hidden;position:fixed}body{margin:0;font:400 15px/1 arial,sans-serif;background:#333}*{box-sizing:border-box}h1,h2,h3,h4,h5{font-family:arial,sans-serif;font-weight:400;margin:0;padding:0}h2{margin:0 0 20px;font-weight:100;font-size:30px}button,input,label,select{font:inherit;height:27px;vertical-align:top}input,select{border:1px solid #d9d9d9;padding:0 5px;background:#f5f5f5;transition:all .3s ease-out}button{padding:0 15px;background:#d9d9d9;color:#222;outline:0;font-size:14px;line-height:1;border:1px solid transparent}#grid1{left:0}#grid2{right:0}#filterGrid1{top:3px;left:50px;width:300px;height:20px}
-.grid{position:absolute;top:0;right:0;bottom:0;left:0;min-height:240px;font-size:13px;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default}.grid *{box-sizing:border-box}.grid-table{width:100%;border-collapse:collapse;table-layout:fixed}.grid-table .row-action{width:20px;font-size:14px;line-height:1;padding:3px 4px;text-align:center;text-decoration:none;display:inline-block}.grid-table .row-action .fa{transition:color .3s ease-out}.grid-table .filter-box{position:absolute;top:0;left:-3px;width:0;z-index:99;overflow:hidden;opacity:0;transition:.2s ease-out}.grid-table .filter-input{width:100%;background:rgba(255,255,255,.95);color:#444;padding:3px 5px 3px 25px;font-size:14px;line-height:1;font-weight:400;border:none}.grid-dark .grid-row:nth-child(odd) .grid-cell,.grid-dark .grid-scroller{background-color:transparent}.grid-dark .grid-cell .row-action,.grid-dark .grid-cell a,.grid-dark .grid-row .grid-cell .row-action,.grid-dark .grid-row .grid-cell a,.grid-dark .grid-table{color:#fff}.grid-table .filter-visible .filter-box{width:400px;opacity:1}.grid-table .filter-visible .row-action{position:relative;z-index:100}.grid-scroller{position:absolute;top:30px;right:0;bottom:24px;left:0;overflow:hidden;overflow-y:auto}.grid-cell,.grid-row .grid-cell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 5px}.grid-cell .row-action,.grid-cell a,.grid-row .grid-cell .row-action,.grid-row .grid-cell a{text-decoration:underline}.grid-cell .row-action:hover,.grid-cell a:hover,.grid-row .grid-cell .row-action:hover,.grid-row .grid-cell a:hover{text-decoration:none}.grid-body-table .grid-cell:last-of-type,.grid-footer-table .grid-cell:last-of-type{padding-right:30px}.grid-row .grid-cell{padding-top:8px;padding-bottom:8px;transition:background-color .1s}.grid-row .grid-cell:last-child,.grid-row:first-child{border:none}.grid-row.grid-row:first-child .grid-cell{border-top:none}.grid-row .grid-no-items{padding:20% 0 0;border-width:0 0 1px;text-align:center}.grid-row .action{padding:0;text-align:center}.grid-header-table{position:relative;z-index:10}.grid-header-table .grid-cell{height:30px;font-weight:700}.grid-header-table .grid-cell.action{padding:0 3px}.grid-header-table .grid-cell.action,.grid-header-table .grid-cell.action .grid-header-cell-inner{overflow:visible}.grid-header-table .grid-cell .fa-sort,.grid-header-table .grid-cell .fa-sort-asc,.grid-header-table .grid-cell .fa-sort-desc{float:right;margin:9px 6px 0 0;font-size:12px;transition:color .3s ease-out}.grid-header-table .grid-cell .fa-sort-asc{margin-top:11px}.grid-header-table .grid-cell .fa-sort-desc{margin-top:7px}.grid-header-table .grid-header-cell-inner{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:30px;position:relative}.grid-header-table .sort-asc .grid-header-cell-inner,.grid-header-table .sort-desc .grid-header-cell-inner{margin-right:10px}.grid-footer-table{position:absolute;right:0;bottom:0;left:0}.grid-footer-table .grid-cell{height:24px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.grid-header-scroll-over{-webkit-box-shadow:0 4px 3px -1px rgba(0,0,0,.3),0 1px 0 #ddd;-moz-box-shadow:0 4px 3px -1px rgba(0,0,0,.3),0 1px 0 #ddd;box-shadow:0 4px 3px -1px rgba(0,0,0,.3),0 1px 0 #ddd}.grid-dark{border:none}.grid-dark .grid-scroller{border-top:1px solid #999;border-bottom:1px solid #999}.grid-dark .grid-row .grid-cell{background-color:transparent;border-right:none}.grid-dark .grid-row.selected .grid-cell{background-color:rgba(255,255,255,.3)}.grid-dark .grid-row:hover .grid-cell{background-color:rgba(255,255,255,.2)}.grid-dark .grid-footer-table .grid-cell,.grid-dark .grid-header-table .grid-cell,.grid-dark .grid-row .grid-no-items:hover{background-color:transparent}.grid-dark .grid-row .grid-no-items{color:rgba(255,255,255,.4)}.grid-dark .row-action .fa{color:rgba(255,255,255,.2)}.grid-dark .row-action:hover .fa{color:rgba(255,255,255,.5)}.grid-dark .row-action:active .fa{color:rgba(255,255,255,.1)}.grid-dark .filter-visible .row-action .fa{color:rgba(68,68,68,.5)}.grid-dark .filter-visible .row-action .fa:hover{color:#444}.grid-dark .filter-visible .row-action .fa:active{color:rgba(68,68,68,.3)}.grid-dark .grid-header-table .grid-cell .fa-sort,.grid-dark .grid-header-table .grid-cell .fa-sort-asc,.grid-dark .grid-header-table .grid-cell .fa-sort-desc{color:rgba(255,255,255,.2)}.grid-dark .grid-header-table .grid-cell:hover .fa-sort{color:rgba(255,255,255,.5)}.grid-dark .grid-header-table .grid-cell .fa-sort-asc,.grid-dark .grid-header-table .grid-cell .fa-sort-desc,.grid-dark .grid-header-table .grid-cell:hover .fa-sort-asc,.grid-dark .grid-header-table .grid-cell:hover .fa-sort-desc{color:#fff}.grid-light .grid-cell .row-action,.grid-light .grid-cell a,.grid-light .grid-row .grid-cell .row-action,.grid-light .grid-row .grid-cell a,.grid-light .grid-table{color:#333}.grid-light{border:none}.grid-light .grid-scroller{background-color:#fff;border-top:1px solid #ccc;border-bottom:1px solid #ccc}.grid-light .grid-row .grid-cell{background-color:#fff;border-right:none}.grid-light .grid-row:nth-child(odd) .grid-cell{background-color:#fff}.grid-light .grid-row.selected .grid-cell{background-color:#ea9e75}.grid-light .grid-row:hover .grid-cell{background-color:#f1f1f1}.grid-light .grid-footer-table .grid-cell,.grid-light .grid-header-table .grid-cell,.grid-light .grid-row .grid-no-items:hover{background-color:#fff}.grid-light .grid-row .grid-no-items{color:rgba(51,51,51,.5)}.grid-light .row-action .fa{color:rgba(51,51,51,.2)}.grid-light .row-action:hover .fa{color:rgba(51,51,51,.5)}.grid-light .row-action:active .fa{color:rgba(51,51,51,.1)}.grid-light .grid-header-table .grid-cell .fa-sort,.grid-light .grid-header-table .grid-cell .fa-sort-asc,.grid-light .grid-header-table .grid-cell .fa-sort-desc{color:rgba(51,51,51,.2)}.grid-light .grid-header-table .grid-cell:hover .fa-sort{color:rgba(51,51,51,.4)}.grid-light .grid-header-table .grid-cell .fa-sort-asc,.grid-light .grid-header-table .grid-cell .fa-sort-desc,.grid-light .grid-header-table .grid-cell:hover .fa-sort-asc,.grid-light .grid-header-table .grid-cell:hover .fa-sort-desc{color:#333}
+html,
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: fixed;
+}
+body {
+  margin: 0;
+  font: 400 15px/1 arial, sans-serif;
+  cursor: default;
+  background: #333;
+}
+* {
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: arial, sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+h2 {
+  margin: 0 0 20px;
+  font-weight: 100;
+  font-size: 30px;
+}
+label,
+button,
+input,
+select {
+  font: inherit;
+  height: 27px;
+  vertical-align: top;
+}
+select,
+input {
+  border: 1px solid #d9d9d9;
+  padding: 0 5px;
+  background: #f5f5f5;
+  transition: all 0.3s ease-out;
+}
+button {
+  cursor: default;
+  padding: 0 15px;
+  background: #d9d9d9;
+  color: #222;
+  outline: none;
+  font-size: 14px;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+#grid1 {
+  position: absolute;
+  top: 30px;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+}
+#grid1 .grid-body .amount,
+#grid1 .grid-footer .amount {
+  text-align: right;
+}
+#grid2 {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+}
+#grid2 .grid-body .amount,
+#grid2 .grid-footer .amount {
+  text-align: right;
+}
+#filterGrid1 {
+  position: absolute;
+  top: 3px;
+  left: 50px;
+  width: 300px;
+  height: 20px;
+}
+
+.grid {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: default;
+  min-height: 240px;
+  font-size: 13px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.grid * {
+  box-sizing: border-box;
+}
+.grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.grid-table .row-action {
+  width: 20px;
+  font-size: 14px;
+  line-height: 1;
+  padding: 3px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.grid-table .row-action .fa {
+  transition: color 0.3s ease-out;
+}
+.grid-table .filter-box {
+  position: absolute;
+  top: 0;
+  left: -3px;
+  width: 0;
+  z-index: 99;
+  overflow: hidden;
+  opacity: 0;
+  transition: 0.2s ease-out;
+}
+.grid-table .filter-input {
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  color: #444;
+  padding: 3px 5px 3px 25px;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: normal;
+  border: none;
+}
+.grid-table .filter-visible .filter-box {
+  width: 400px;
+  opacity: 1;
+}
+.grid-table .filter-visible .row-action {
+  position: relative;
+  z-index: 100;
+}
+.grid-scroller {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  bottom: 24px;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.grid-cell,
+.grid-row .grid-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
+}
+.grid-cell .row-action,
+.grid-row .grid-cell .row-action,
+.grid-cell a,
+.grid-row .grid-cell a {
+  text-decoration: underline;
+}
+.grid-cell .row-action:hover,
+.grid-row .grid-cell .row-action:hover,
+.grid-cell a:hover,
+.grid-row .grid-cell a:hover {
+  text-decoration: none;
+}
+.grid-footer-table .grid-cell:last-of-type,
+.grid-body-table .grid-cell:last-of-type {
+  padding-right: 30px;
+}
+.grid-row .grid-cell {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transition: background-color 0.1s;
+}
+.grid-row .grid-cell:last-child {
+  border: none;
+}
+.grid-row:first-child {
+  border: none;
+}
+.grid-row.grid-row:first-child .grid-cell {
+  border-top: none;
+}
+.grid-row .grid-no-items {
+  padding: 20% 0 0 0;
+  border-width: 0 0 1px;
+  text-align: center;
+}
+.grid-row .action {
+  padding: 0;
+  text-align: center;
+}
+.grid-header-table {
+  position: relative;
+  z-index: 10;
+}
+.grid-header-table .grid-cell {
+  height: 30px;
+  font-weight: bold;
+}
+.grid-header-table .grid-cell.action {
+  padding: 0 3px;
+}
+.grid-header-table .grid-cell.action,
+.grid-header-table .grid-cell.action .grid-header-cell-inner {
+  overflow: visible;
+}
+.grid-header-table .grid-cell .fa-sort,
+.grid-header-table .grid-cell .fa-sort-asc,
+.grid-header-table .grid-cell .fa-sort-desc {
+  float: right;
+  margin: 9px 6px 0 0;
+  font-size: 12px;
+  transition: color 0.3s ease-out;
+}
+.grid-header-table .grid-cell .fa-sort-asc {
+  margin-top: 11px;
+}
+.grid-header-table .grid-cell .fa-sort-desc {
+  margin-top: 7px;
+}
+.grid-header-table .grid-header-cell-inner {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 30px;
+  position: relative;
+}
+.grid-header-table .sort-asc .grid-header-cell-inner,
+.grid-header-table .sort-desc .grid-header-cell-inner {
+  margin-right: 10px;
+}
+.grid-footer-table {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.grid-footer-table .grid-cell {
+  height: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.grid-header-scroll-over {
+  -webkit-box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+  -moz-box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+  box-shadow: 0 4px 3px -1px rgba(0,0,0,0.3) , 0 1px 0 #ddd;
+}
+/*** DARK THEME ***********************************************************************************/
+.grid-dark {
+  border: none;
+}
+.grid-dark .grid-table {
+  color: #fff;
+}
+.grid-dark .grid-scroller {
+  background-color: transparent;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+.grid-dark .grid-cell .row-action,
+.grid-dark .grid-row .grid-cell .row-action,
+.grid-dark .grid-cell a,
+.grid-dark .grid-row .grid-cell a {
+  color: #fff;
+}
+.grid-dark .grid-row .grid-cell {
+  background-color: transparent;
+  border-right: none;
+}
+.grid-dark .grid-row:nth-child(odd) .grid-cell {
+  background-color: transparent;
+}
+.grid-dark .grid-row.selected .grid-cell {
+  background-color: rgba(255,255,255,0.3);
+}
+.grid-dark .grid-row:hover .grid-cell {
+  background-color: rgba(255,255,255,0.2);
+}
+.grid-dark .grid-row .grid-no-items {
+  color: rgba(255,255,255,0.4);
+}
+.grid-dark .grid-row .grid-no-items:hover {
+  background-color: transparent;
+}
+.grid-dark .row-action .fa {
+  color: rgba(255,255,255,0.2);
+}
+.grid-dark .row-action:hover .fa {
+  color: rgba(255,255,255,0.5);
+}
+.grid-dark .row-action:active .fa {
+  color: rgba(255,255,255,0.1);
+}
+.grid-dark .filter-visible .row-action .fa {
+  color: rgba(68,68,68,0.5);
+}
+.grid-dark .filter-visible .row-action .fa:hover {
+  color: #444;
+}
+.grid-dark .filter-visible .row-action .fa:active {
+  color: rgba(68,68,68,0.3);
+}
+.grid-dark .grid-header-table .grid-cell {
+  background-color: transparent;
+}
+.grid-dark .grid-header-table .grid-cell .fa-sort,
+.grid-dark .grid-header-table .grid-cell .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-desc {
+  color: rgba(255,255,255,0.2);
+}
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort {
+  color: rgba(255,255,255,0.5);
+}
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-asc,
+.grid-dark .grid-header-table .grid-cell:hover .fa-sort-desc,
+.grid-dark .grid-header-table .grid-cell .fa-sort-desc {
+  color: #fff;
+}
+.grid-dark .grid-footer-table .grid-cell {
+  background-color: transparent;
+}
+/*** DARK THEME ***********************************************************************************/
+/*** LIGHT THEME **********************************************************************************/
+.grid-light {
+  border: none;
+}
+.grid-light .grid-table {
+  color: #333;
+}
+.grid-light .grid-scroller {
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.grid-light .grid-cell .row-action,
+.grid-light .grid-row .grid-cell .row-action,
+.grid-light .grid-cell a,
+.grid-light .grid-row .grid-cell a {
+  color: #333;
+}
+.grid-light .grid-row .grid-cell {
+  background-color: #fff;
+  border-right: none;
+}
+.grid-light .grid-row:nth-child(odd) .grid-cell {
+  background-color: #fff;
+}
+.grid-light .grid-row.selected .grid-cell {
+  background-color: #ea9e75;
+}
+.grid-light .grid-row:hover .grid-cell {
+  background-color: #f1f1f1;
+}
+.grid-light .grid-row .grid-no-items {
+  color: rgba(51,51,51,0.5);
+}
+.grid-light .grid-row .grid-no-items:hover {
+  background-color: #fff;
+}
+.grid-light .row-action .fa {
+  color: rgba(51,51,51,0.2);
+}
+.grid-light .row-action:hover .fa {
+  color: rgba(51,51,51,0.5);
+}
+.grid-light .row-action:active .fa {
+  color: rgba(51,51,51,0.1);
+}
+.grid-light .grid-header-table .grid-cell {
+  background-color: #fff;
+}
+.grid-light .grid-header-table .grid-cell .fa-sort,
+.grid-light .grid-header-table .grid-cell .fa-sort-asc,
+.grid-light .grid-header-table .grid-cell .fa-sort-desc {
+  color: rgba(51,51,51,0.2);
+}
+.grid-light .grid-header-table .grid-cell:hover .fa-sort {
+  color: rgba(51,51,51,0.4);
+}
+.grid-light .grid-header-table .grid-cell:hover .fa-sort-asc,
+.grid-light .grid-header-table .grid-cell .fa-sort-asc,
+.grid-light .grid-header-table .grid-cell:hover .fa-sort-desc,
+.grid-light .grid-header-table .grid-cell .fa-sort-desc {
+  color: #333;
+}
+.grid-light .grid-footer-table .grid-cell {
+  background-color: #fff;
+}
+/*** LIGHT THEME **********************************************************************************/

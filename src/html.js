@@ -19,7 +19,11 @@ function _getRowIcons (icons) {
 
 function _getHeaderRow () {
 	const cells = [];
-	const hasFilter = (this.cfg.filter === true || typeof this.cfg.filter === 'undefined');
+	const hasFilter = this.cfg.filter === true ||
+		typeof this.cfg.filter === 'undefined' ||
+		typeof this.cfg.filter === 'object';
+
+	this.hasFilter = hasFilter;
 	for (let col of this.cfg.columns) {
 		let sortCls = (col.sortable ? 'sort' : '');
 		col.headerCls = ['grid-cell', 'grid-header-cell', col.field, sortCls];
@@ -30,7 +34,6 @@ function _getHeaderRow () {
 				'<div class="filter-box"><input class="filter-input" type="text"></div>';
 			this.hasFilter = true;
 		}
-		else this.hasFilter = !!this.cfg.filter;
 		col.headerCls = col.headerCls.join(' ');
 		cells.push(headerCellTpl(col));
 	}
