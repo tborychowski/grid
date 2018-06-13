@@ -2,7 +2,7 @@
   "name": "lite-grid",
   "version": "1.6.4",
   "description": "simple es6 grid widget",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "author": "Tom",
   "repository": {
     "type": "git",
